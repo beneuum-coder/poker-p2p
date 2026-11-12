@@ -87,6 +87,11 @@ export class HostSession {
       if (this.destroyed) return;
       const type = err?.type || 'unknown';
       if (type === 'unavailable-id') {
+        if (this.hasOpened) {
+          this._emitStatus('reconnecting', '信令连接恢复中，正在重试房间…');
+          this._scheduleReconnect(true);
+          return;
+        }
         this._emitStatus('error', '房间码被占用，请返回重新创建房间');
         this.onError('房间码被占用，请返回重新创建房间');
         return;

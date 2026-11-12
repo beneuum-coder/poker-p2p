@@ -330,13 +330,6 @@ export class PokerTable {
     // 上一手已结束：先 reset 解锁座位，让等待中的玩家能在本手开始前入座。
     if (t.controller.status === 'between_hands') t.reset();
     if (t.controller.status !== 'idle') throw new Error('当前手牌尚未结束');
-    this._seatPending();
-    this._unseatBrokePlayers();
-
-    if (t.room.getPlayersBySeatStatus('on-set').length < 2) throw new Error('至少需要 2 名已入座玩家');
-    if (t.room.getPlayersBySeatStatus('on-set').some((p) => p.balance <= 0)) {
-      throw new Error('有玩家筹码为 0，无法开始');
-    }
 
     this.handResult = null;
     this.settled = false;
@@ -344,6 +337,14 @@ export class PokerTable {
     this.log = [];
     this.logSeq = 0;
     this._lastEventTypes = [];
+
+    this._seatPending();
+    this._unseatBrokePlayers();
+
+    if (t.room.getPlayersBySeatStatus('on-set').length < 2) throw new Error('至少需要 2 名已入座玩家');
+    if (t.room.getPlayersBySeatStatus('on-set').some((p) => p.balance <= 0)) {
+      throw new Error('有玩家筹码为 0，无法开始');
+    }
 
     const originalDeal = t.dealer.deck.dealCards;
     if (this._dealOverride) {

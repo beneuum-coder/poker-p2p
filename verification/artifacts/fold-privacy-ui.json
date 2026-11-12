@@ -1,0 +1,91 @@
+{
+  "startedAt": "2026-11-12T10:47:09.170Z",
+  "ok": true,
+  "g3SelfCards": [
+    "3♣",
+    "A♥"
+  ],
+  "engine": [
+    {
+      "id": 1,
+      "name": "房主折叠测试",
+      "cards": [
+        "h4",
+        "d7"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "玩家甲",
+      "cards": [
+        "s5",
+        "d3"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "弃牌玩家",
+      "cards": [
+        "c3",
+        "ha"
+      ]
+    }
+  ],
+  "hostSeats": [
+    {
+      "name": "房主折叠测试",
+      "cards": [
+        "4♥",
+        "7♦"
+      ],
+      "hasBack": false,
+      "folded": false
+    },
+    {
+      "name": "玩家甲",
+      "cards": [
+        "5♠",
+        "3♦"
+      ],
+      "hasBack": false,
+      "folded": false
+    },
+    {
+      "name": "弃牌玩家",
+      "cards": [],
+      "hasBack": false,
+      "folded": true
+    }
+  ],
+  "guestSeats": [
+    {
+      "name": "玩家甲",
+      "cards": [
+        "5♠",
+        "3♦"
+      ],
+      "hasBack": false,
+      "folded": false
+    },
+    {
+      "name": "弃牌玩家",
+      "cards": [],
+      "hasBack": false,
+      "folded": true
+    },
+    {
+      "name": "房主折叠测试",
+      "cards": [
+        "4♥",
+        "7♦"
+      ],
+      "hasBack": false,
+      "folded": false
+    }
+  ],
+  "foldedHoles": [
+    "c3",
+    "ha"
+  ],
+  "finishedAt": "2026-11-12T10:47:22.934Z"
+}

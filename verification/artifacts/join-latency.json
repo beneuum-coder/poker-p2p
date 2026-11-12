@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-11-12T10:46:44.261Z",
+  "runs": [
+    {
+      "code": "RN8C6P",
+      "guestVisibleMs": 2647,
+      "hostVisibleMs": 2654,
+      "hostMeta": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 结束房间",
+      "guestMeta": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 离开"
+    },
+    {
+      "code": "92PA3Q",
+      "guestVisibleMs": 2533,
+      "hostVisibleMs": 2538,
+      "hostMeta": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 结束房间",
+      "guestMeta": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 离开"
+    },
+    {
+      "code": "QKW9LN",
+      "guestVisibleMs": 2509,
+      "hostVisibleMs": 2517,
+      "hostMeta": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 结束房间",
+      "guestMeta": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 离开"
+    }
+  ],
+  "summary": {
+    "minMs": 2517,
+    "maxMs": 2654,
+    "allWithin10s": true
+  },
+  "errors": [],
+  "ok": true
+}

@@ -1,0 +1,375 @@
+{
+  "generatedAt": "2026-11-12T10:39:13.086Z",
+  "node": "v20.18.0",
+  "checks": [
+    {
+      "name": "隐私/摊牌前：所有观战者投影不含他人底牌（逐街扫描 + 全字段递归）",
+      "ok": true,
+      "detail": {
+        "stagesSeen": [
+          "pre_flop",
+          "flop",
+          "turn",
+          "river"
+        ],
+        "steps": 12,
+        "holes": {
+          "1": [
+            "sq",
+            "hq"
+          ],
+          "2": [
+            "sa",
+            "ha"
+          ],
+          "3": [
+            "sk",
+            "hk"
+          ]
+        }
+      }
+    },
+    {
+      "name": "隐私/摊牌后：仅未弃牌玩家公开底牌，弃牌玩家仍保密",
+      "ok": true,
+      "detail": {
+        "outcome": "showdown",
+        "revealed": [
+          1,
+          3
+        ],
+        "foldedHoles": [
+          "sa",
+          "ha"
+        ],
+        "bestPokes": [
+          [
+            "sk",
+            "hk",
+            "s9",
+            "ct",
+            "dj"
+          ]
+        ],
+        "bestRankCategory": "r"
+      }
+    },
+    {
+      "name": "隐私/弃牌结束：任何字段（含 result.bestPokes）不含赢家底牌",
+      "ok": true,
+      "detail": {
+        "winner": 3,
+        "winnerHoles": [
+          "sk",
+          "hk"
+        ],
+        "bestPokes": [],
+        "bestRankCategory": null,
+        "resultKeys": [
+          "outcome",
+          "board",
+          "endStage",
+          "bestPokes",
+          "bestRankCategory",
+          "bestRankSignature",
+          "potTotal",
+          "awards",
+          "revealed"
+        ]
+      }
+    },
+    {
+      "name": "容量/2 人：入座、初始筹码 1000、盲注 10/20、底池 30",
+      "ok": true,
+      "detail": {
+        "n": 2,
+        "potStart": 30,
+        "awards": [
+          {
+            "userId": 2,
+            "amount": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "容量/3 人：入座、初始筹码 1000、盲注 10/20、底池 30",
+      "ok": true,
+      "detail": {
+        "n": 3,
+        "potStart": 30,
+        "awards": [
+          {
+            "userId": 1,
+            "amount": 60
+          }
+        ]
+      }
+    },
+    {
+      "name": "容量/4 人：入座、初始筹码 1000、盲注 10/20、底池 30",
+      "ok": true,
+      "detail": {
+        "n": 4,
+        "potStart": 30,
+        "awards": [
+          {
+            "userId": 2,
+            "amount": 40
+          },
+          {
+            "userId": 3,
+            "amount": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "容量/5 人：入座、初始筹码 1000、盲注 10/20、底池 30",
+      "ok": true,
+      "detail": {
+        "n": 5,
+        "potStart": 30,
+        "awards": [
+          {
+            "userId": 3,
+            "amount": 100
+          }
+        ]
+      }
+    },
+    {
+      "name": "容量/6 人：入座、初始筹码 1000、盲注 10/20、底池 30",
+      "ok": true,
+      "detail": {
+        "n": 6,
+        "potStart": 30,
+        "awards": [
+          {
+            "userId": 4,
+            "amount": 120
+          }
+        ]
+      }
+    },
+    {
+      "name": "容量/7 人：第 7 人被拒绝（房间上限 6）",
+      "ok": true,
+      "detail": {
+        "maxPlayers": 6,
+        "playerCount": 6
+      }
+    },
+    {
+      "name": "下一手/2 人：庄家移动、底池重置为 30、筹码守恒",
+      "ok": true,
+      "detail": {
+        "n": 2,
+        "oldBtn": 2,
+        "newBtn": 1,
+        "chipsAfter": [
+          980,
+          1020
+        ]
+      }
+    },
+    {
+      "name": "下一手/3 人：庄家移动、底池重置为 30、筹码守恒",
+      "ok": true,
+      "detail": {
+        "n": 3,
+        "oldBtn": 3,
+        "newBtn": 1,
+        "chipsAfter": [
+          980,
+          980,
+          1040
+        ]
+      }
+    },
+    {
+      "name": "下一手/6 人：庄家移动、底池重置为 30、筹码守恒",
+      "ok": true,
+      "detail": {
+        "n": 6,
+        "oldBtn": 6,
+        "newBtn": 1,
+        "chipsAfter": [
+          980,
+          980,
+          980,
+          980,
+          980,
+          1100
+        ]
+      }
+    },
+    {
+      "name": "边池/三人 100·300·300：分配 300/400、筹码守恒、展示侧池正确",
+      "ok": true,
+      "detail": {
+        "awards": {
+          "1": 300,
+          "2": 400
+        },
+        "sidePots": [
+          {
+            "amount": 300,
+            "eligible": [
+              1,
+              2,
+              3
+            ],
+            "label": "主池"
+          },
+          {
+            "amount": 400,
+            "eligible": [
+              2,
+              3
+            ],
+            "label": "边池 1"
+          }
+        ],
+        "chips": [
+          [
+            1,
+            300
+          ],
+          [
+            2,
+            400
+          ],
+          [
+            3,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "边池/四人 50·100·200·300：主池+3 边池分别结算、筹码守恒",
+      "ok": true,
+      "detail": {
+        "awards": {
+          "1": 100,
+          "2": 200,
+          "3": 150,
+          "4": 200
+        },
+        "sidePots": [
+          {
+            "amount": 200,
+            "eligible": [
+              2,
+              3,
+              4,
+              1
+            ]
+          },
+          {
+            "amount": 150,
+            "eligible": [
+              3,
+              4,
+              1
+            ]
+          },
+          {
+            "amount": 200,
+            "eligible": [
+              4,
+              1
+            ]
+          },
+          {
+            "amount": 100,
+            "eligible": [
+              1
+            ]
+          }
+        ],
+        "recomputed": [
+          200,
+          150,
+          200,
+          100
+        ]
+      }
+    },
+    {
+      "name": "平分底池/二人：公共牌皇家同花顺，各 +20，筹码守恒",
+      "ok": true,
+      "detail": {
+        "awards": [
+          {
+            "userId": 1,
+            "amount": 20
+          },
+          {
+            "userId": 2,
+            "amount": 20
+          }
+        ],
+        "chips": [
+          1000,
+          1000
+        ],
+        "board": [
+          "ha",
+          "hk",
+          "hq",
+          "hj",
+          "ht"
+        ]
+      }
+    },
+    {
+      "name": "全下跑马/二人：翻前全下自动跑完 5 张公共牌并结算，筹码守恒",
+      "ok": true,
+      "detail": {
+        "board": [
+          "c2",
+          "d7",
+          "s9",
+          "ct",
+          "dj"
+        ],
+        "awards": [
+          {
+            "userId": 2,
+            "amount": 2000
+          }
+        ],
+        "chips": [
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            2000
+          ]
+        ]
+      }
+    },
+    {
+      "name": "多手/三人：连续 5 手庄家每手移动且筹码守恒",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          3,
+          1,
+          2,
+          3,
+          1
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "passed": 17,
+    "failed": 0
+  }
+}

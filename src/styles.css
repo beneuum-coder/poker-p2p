@@ -462,11 +462,12 @@ a { color: var(--gold); }
   .hero h1 { font-size: 40px; }
   .felt { min-height: 430px; aspect-ratio: auto; border-width: 7px; }
   .table-center { width: 78%; top: 47%; }
-  .seat { width: 118px; padding: 6px 7px; }
-  .seat-name { font-size: 11px; max-width: 66px; }
+  .seat { width: 104px; padding: 6px 7px; }
+  .seat-name { font-size: 11px; max-width: 56px; }
   .seat-chips { font-size: 12px; }
-  .seat-cards .card { --w: 27px; }
-  .seat-cards { min-height: 43px; }
+  .seat-cards .card { --w: 25px; }
+  .seat-cards { min-height: 40px; }
+  .seat-bet { font-size: 9px; padding: 2px 6px; bottom: -13px; }
   .card { --w: 42px; }
   .community { min-height: 60px; gap: 4px; }
   .pot-amount { font-size: 20px; }

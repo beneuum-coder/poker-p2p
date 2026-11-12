@@ -1,0 +1,172 @@
+{
+  "startedAt": "2026-11-12T10:42:52.343Z",
+  "finishedAt": "2026-11-12T10:42:58.040Z",
+  "ok": true,
+  "checks": [
+    {
+      "name": "Pages/产物：docs/index.html、app.js、styles.css、.nojekyll 齐全且非空",
+      "ok": true,
+      "detail": {
+        "docs/index.html": 1236,
+        "docs/app.js": 445510,
+        "docs/styles.css": 22912,
+        "docs/.nojekyll": 0
+      }
+    },
+    {
+      "name": "Pages/相对路径：index.html 只用 ./ 相对引用，无绝对 / 引用",
+      "ok": true,
+      "detail": {
+        "relativeRefs": [
+          "./styles.css",
+          "./app.js"
+        ],
+        "absolute": []
+      }
+    },
+    {
+      "name": "Pages/产物与 src 一致：index.html、styles.css 与 src 完全相同",
+      "ok": true,
+      "detail": {
+        "index": "identical",
+        "styles": "identical"
+      }
+    },
+    {
+      "name": "Pages/Actions 配置：main 分支、npm ci/test/build、上传 docs、deploy-pages 权限齐全",
+      "ok": true,
+      "detail": {
+        "workflow": ".github/workflows/pages.yml"
+      }
+    },
+    {
+      "name": "Pages/子路径部署：/poker-p2p/ 下能加载样式、启动应用并创建房间",
+      "ok": true,
+      "detail": {
+        "url": "http://127.0.0.1:64420/poker-p2p/",
+        "code": "VQM5M8",
+        "styleSheets": 1,
+        "requests": [
+          "/poker-p2p/",
+          "/poker-p2p/styles.css",
+          "/poker-p2p/app.js"
+        ]
+      }
+    },
+    {
+      "name": "README/部署说明：Pages 两种方式、.nojekyll、本地预览命令均写明",
+      "ok": true,
+      "detail": {
+        "scripts": [
+          "build",
+          "test",
+          "test:e2e",
+          "verify",
+          "serve"
+        ]
+      }
+    },
+    {
+      "name": "README/限制说明：房主可信可作弊、公共信令/NAT、房主刷新丢房间均已明确",
+      "ok": true,
+      "detail": {
+        "hasKnownLimits": true
+      }
+    },
+    {
+      "name": "README/E2E 覆盖声明与实际脚本一致（刷新、3.5s 断网、三人边池、下一手）",
+      "ok": true,
+      "detail": {
+        "e2eMarkers": [
+          "reload",
+          "offline-3.5s",
+          "sidepot",
+          "next-hand"
+        ]
+      }
+    },
+    {
+      "name": "README/行为：仅房主一人时不能开始（引擎与 UI 双重限制）",
+      "ok": true,
+      "detail": {
+        "lobbyPlayers": 1,
+        "error": "至少需要 2 名已入座玩家"
+      }
+    },
+    {
+      "name": "README/行为：0 筹码玩家下一手前自动离座",
+      "ok": true,
+      "detail": {
+        "p2": {
+          "id": 2,
+          "name": "B",
+          "chips": 0,
+          "seated": false,
+          "connected": true,
+          "isHost": false,
+          "bet": 0,
+          "contributed": 0,
+          "status": "waiting",
+          "role": "bb",
+          "cardCount": 0,
+          "folded": false
+        },
+        "handNo": 2
+      }
+    },
+    {
+      "name": "README/行为：房主局间为 0 筹码玩家补码 1000 后，下一手可继续",
+      "ok": true,
+      "detail": {
+        "chips": [
+          [
+            1,
+            990,
+            true
+          ],
+          [
+            2,
+            980,
+            true
+          ],
+          [
+            3,
+            1000,
+            true
+          ]
+        ],
+        "handNo": 2
+      }
+    },
+    {
+      "name": "README/行为：邀请链接 ?r=CODE 能被页面识别并预填房间码",
+      "ok": true,
+      "detail": {
+        "prefill": "ABC234",
+        "activeTab": "加入房间"
+      }
+    },
+    {
+      "name": "README/最近 E2E 结果：当前重跑为 2 个场景全部通过（时间与 README 快照略有差异）",
+      "ok": true,
+      "detail": {
+        "scenarios": [
+          {
+            "name": "联机建立 + 完整一手牌 + 底牌保密 + 断线恢复 + 下一手",
+            "ms": 18441
+          },
+          {
+            "name": "边池：三人不等额全下，主池与边池分配正确",
+            "ms": 6196
+          }
+        ],
+        "finishedAt": "2026-11-12T10:37:52.072Z"
+      }
+    }
+  ],
+  "requests": [
+    "/poker-p2p/",
+    "/poker-p2p/styles.css",
+    "/poker-p2p/app.js"
+  ]
+}

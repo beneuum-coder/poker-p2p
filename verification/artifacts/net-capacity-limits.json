@@ -1,0 +1,86 @@
+{
+  "startedAt": "2026-11-12T10:41:36.446Z",
+  "checks": [
+    {
+      "name": "容量/6 人真实联机：房主 + 5 玩家全部入座，显示 6/6 人，初始筹码 1000",
+      "ok": true,
+      "detail": {
+        "meta": "盲注 10 / 20 | 6/6 人在座 | 等待开始 | 结束房间",
+        "seatCount": 6,
+        "playerRows6": [
+          "1,000",
+          "1,000",
+          "1,000",
+          "1,000",
+          "1,000",
+          "1,000"
+        ]
+      }
+    },
+    {
+      "name": "容量/6 人发牌：盲注 10/20 扣成底池 30，6 家各 2 张底牌且对手只见牌背",
+      "ok": true,
+      "detail": {
+        "pot6": "30",
+        "hostOwnCards": 2,
+        "hostOppBacks": 10,
+        "guestOwnCards": 2,
+        "guestOppBacks": 10
+      }
+    },
+    {
+      "name": "容量/第 7 人：被拒绝并提示“房间已满”，房主仍为 6 人",
+      "ok": true,
+      "detail": {
+        "rejected": "房间已满",
+        "seventhHasRoom": 0,
+        "hostRowsAfter7": 6
+      }
+    },
+    {
+      "name": "已知边界/房主刷新：房主回到 landing 且内存牌桌消失",
+      "ok": true,
+      "detail": {
+        "hasRoomCode": false,
+        "hasHero": true,
+        "txpTable": "undefined",
+        "title": "联机德州 · P2P Texas Hold'em"
+      }
+    },
+    {
+      "name": "已知边界/房主刷新：玩家断开且无法恢复，座位状态保留在旧页面",
+      "ok": true,
+      "detail": {
+        "pillText": "重连中",
+        "pillAfterWait": "连接中",
+        "bannerVisible": false,
+        "connectedAgain": false,
+        "guestStillShowsRoom": true
+      }
+    }
+  ],
+  "steps": [
+    {
+      "step": "guest-joined",
+      "seat": 2
+    },
+    {
+      "step": "guest-joined",
+      "seat": 3
+    },
+    {
+      "step": "guest-joined",
+      "seat": 4
+    },
+    {
+      "step": "guest-joined",
+      "seat": 5
+    },
+    {
+      "step": "guest-joined",
+      "seat": 6
+    }
+  ],
+  "finishedAt": "2026-11-12T10:42:07.674Z",
+  "ok": true
+}

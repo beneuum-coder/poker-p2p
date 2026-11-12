@@ -1,0 +1,81 @@
+{
+  "generatedAt": "2026-11-12T10:44:06.606Z",
+  "checks": [
+    {
+      "name": "本手进行中加入：先等待，下一手自动入座（README 第 55 行）",
+      "ok": true,
+      "detail": {
+        "playerId": 4,
+        "during": {
+          "seated": false
+        },
+        "after": {
+          "seated": true,
+          "handNo": 2
+        }
+      }
+    },
+    {
+      "name": "房间码：6 位、来自 32 字符表、不含 0/1/I/O（README 第 37 行）",
+      "ok": true,
+      "detail": {
+        "alphabet": "23456789ABCDEFGHJKLMNPQRSTUVWXYZ",
+        "samples": 2000
+      }
+    },
+    {
+      "name": "边池展示：摊牌时弃牌玩家被排除出所有 sidePot.eligible，金额仍按投入拆分",
+      "ok": true,
+      "detail": {
+        "awards": [
+          {
+            "userId": 3,
+            "amount": 140
+          }
+        ],
+        "sidePots": [
+          {
+            "amount": 60,
+            "eligible": [
+              3,
+              1
+            ],
+            "label": "主池"
+          },
+          {
+            "amount": 80,
+            "eligible": [
+              3,
+              1
+            ],
+            "label": "边池 1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "风险确认：断线玩家仍占座位，满 6 人后第 7 人无法加入，且 UI 无踢人入口",
+      "ok": true,
+      "detail": {
+        "disconnectedStillSeated": true,
+        "hasKick": false
+      }
+    }
+  ],
+  "observations": [
+    {
+      "id": "no-kick-disconnected-seat",
+      "severity": "low",
+      "summary": "断线玩家永久占座，满 6 人后无踢人入口；首版未承诺踢人，属于可用性风险",
+      "evidence": {
+        "disconnectedSeatStillCounts": true,
+        "seventhRejected": true,
+        "hasKickControl": false
+      }
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "failed": 0
+  }
+}

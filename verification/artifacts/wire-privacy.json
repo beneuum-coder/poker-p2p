@@ -1,0 +1,189 @@
+{
+  "startedAt": "2026-11-12T10:46:03.901Z",
+  "steps": [
+    {
+      "step": "host-created+wire-patched",
+      "code": "WJGZXV"
+    }
+  ],
+  "wireMessages": 15,
+  "checks": [
+    {
+      "name": "联机建立：双方数秒内互相看到 2/6 人",
+      "ok": true,
+      "detail": {
+        "host": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 结束房间",
+        "guest": "盲注 10 / 20 | 2/6 人在座 | 等待开始 | 离开"
+      }
+    },
+    {
+      "name": "隐私/wire：摊牌前发给玩家的 state 全部不含其他玩家底牌",
+      "ok": true,
+      "detail": {
+        "playingMessages": 1,
+        "allToGuest": 2,
+        "totalWireMessages": 3,
+        "guestId": 2,
+        "hostHoles": [
+          "dq",
+          "dk"
+        ],
+        "guestHoles": [
+          "sa",
+          "ha"
+        ]
+      }
+    },
+    {
+      "name": "隐私/UI：房主与玩家 DOM 均未渲染对手底牌（卡面元素 + 全文 textContent）",
+      "ok": true,
+      "detail": {
+        "hostDom": {
+          "viewerId": 1,
+          "visible": [
+            "K♦",
+            "Q♦"
+          ],
+          "allowed": [
+            "K♦",
+            "Q♦"
+          ]
+        },
+        "guestDom": {
+          "viewerId": 2,
+          "visible": [
+            "A♠",
+            "A♥"
+          ],
+          "allowed": [
+            "A♠",
+            "A♥"
+          ]
+        }
+      }
+    },
+    {
+      "name": "隐私/浏览器存储：玩家 localStorage 不含任何底牌/牌局状态",
+      "ok": true,
+      "detail": {
+        "keys": [
+          "txp:name",
+          "txp:session:WJGZXV"
+        ],
+        "hasState": false
+      }
+    },
+    {
+      "name": "隐私/全局：玩家页面不暴露牌桌/引擎对象",
+      "ok": true,
+      "detail": {
+        "__txpTable": "undefined",
+        "__txpHost": "undefined",
+        "suspicious": []
+      }
+    },
+    {
+      "name": "断线恢复/刷新：座位、筹码、底牌、当前街均恢复",
+      "ok": true,
+      "detail": {
+        "beforeReload": {
+          "stage": "翻牌",
+          "pot": "40",
+          "chips": "980筹码",
+          "hole": [
+            "A♠",
+            "A♥"
+          ]
+        },
+        "afterReload": {
+          "stage": "翻牌",
+          "pot": "40",
+          "chips": "980筹码",
+          "hole": [
+            "A♠",
+            "A♥"
+          ]
+        }
+      }
+    },
+    {
+      "name": "隐私/wire：刷新重连后的 state 仍不含他人底牌",
+      "ok": true,
+      "detail": {
+        "totalToGuest": 5,
+        "leaks": 0
+      }
+    },
+    {
+      "name": "断线恢复/短时断网：2 秒断网后自动重连，仍为翻牌且筹码不变",
+      "ok": true,
+      "detail": {
+        "duringOffline": "盲注 10 / 20 | 2/6 人在座 | 第 1 手 · 翻牌 | 结束房间",
+        "pill": "已连接"
+      }
+    },
+    {
+      "name": "摊牌/规则：自动判胜负 + awards 总和等于底池 + 公共牌 5 张",
+      "ok": true,
+      "detail": {
+        "awards": [
+          {
+            "userId": 2,
+            "amount": 40
+          }
+        ],
+        "potTotal": 40,
+        "board": [
+          "sq",
+          "d5",
+          "d7",
+          "ca",
+          "s2"
+        ],
+        "nonFolded": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "name": "隐私/摊牌后：双方 state 只公开未弃牌玩家底牌，弃牌者仍保密",
+      "ok": true,
+      "detail": {
+        "nonFolded": [
+          1,
+          2
+        ],
+        "revealed": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "name": "隐私/UI 摊牌后：玩家页面出现对手 2 张明牌且牌面与引擎一致",
+      "ok": true,
+      "detail": {
+        "guestSeesHost": [
+          "K♦",
+          "Q♦"
+        ],
+        "hostSeesGuest": [
+          "A♠",
+          "A♥"
+        ]
+      }
+    }
+  ],
+  "roomCode": "WJGZXV",
+  "wireSummary": {
+    "total": 15,
+    "byType": {
+      "welcome": 3,
+      "state": 12
+    },
+    "toGuestStateCount": 12
+  },
+  "finishedAt": "2026-11-12T10:46:20.928Z",
+  "ok": true
+}

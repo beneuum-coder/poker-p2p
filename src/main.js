@@ -88,11 +88,7 @@ function randomGuestName() {
 function setNet(phase, detail) {
   app.net = { phase, detail };
   renderNetPill();
-  const banner = $('#conn-banner');
-  if (banner) {
-    // 房间正文由 render 重绘；这里仅同步顶部状态条
-    render();
-  }
+  if (app.mode === 'room' || app.mode === 'connecting') render();
 }
 
 function renderNetPill() {
@@ -368,14 +364,17 @@ function layoutSeats(seated, viewerId) {
   if (!n) return [];
   let idx = seated.findIndex((p) => p.id === viewerId);
   if (idx < 0) idx = 0;
+  const narrow = typeof window !== 'undefined' && window.innerWidth <= 680;
+  const rx = narrow ? 33 : 39;
+  const ry = narrow ? 34 : 38;
   const out = [];
   for (let k = 0; k < n; k += 1) {
     const player = seated[(idx + k) % n];
     const angle = (90 + (k * 360) / n) * (Math.PI / 180);
     out.push({
       player,
-      x: 50 + 39 * Math.cos(angle),
-      y: 50 + 38 * Math.sin(angle),
+      x: 50 + rx * Math.cos(angle),
+      y: 50 + ry * Math.sin(angle),
     });
   }
   return out;
@@ -517,8 +516,9 @@ function playerListHTML(state, viewerId, isHost) {
 function hostControlsHTML(state, isHost) {
   if (!isHost) return '';
   const seatedWithChips = state.players.filter((p) => p.seated && p.chips > 0).length;
-  const button = state.status === 'lobby'
-    ? `<button type="button" class="btn block" data-action="start" ${seatedWithChips >= 2 ? '' : 'disabled'}>开始第 1 手</button>`
+  const canStart = state.status === 'lobby' || state.status === 'idle';
+  const button = canStart
+    ? `<button type="button" class="btn block" data-action="start" ${seatedWithChips >= 2 ? '' : 'disabled'}>${state.status === 'lobby' ? '开始第 1 手' : '开始下一手'}</button>`
     : state.status === 'hand_over'
       ? `<button type="button" class="btn block" data-action="next" ${seatedWithChips >= 2 ? '' : 'disabled'}>开始下一手</button>`
       : `<button type="button" class="btn block ghost" disabled>本手进行中</button>`;
@@ -662,6 +662,7 @@ function startHand() {
     app.host.startHand();
     app.ui.raiseTo = null;
   } catch (err) {
+    try { app.host.sync(); } catch { /* ignore */ }
     toast(err?.message || '无法开始', true);
   }
 }
