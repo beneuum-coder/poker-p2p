@@ -725,6 +725,7 @@ export class PokerTable {
         name: me?.name || '',
         seated: Boolean(me?.seated),
         cards: viewedHole,
+        role: me?.role || null,
         allowed,
         isTurn: Boolean(allowed),
         isHost: viewerId === this.hostId,

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PokerTable, computeSidePots, cardText, formatCards, RANK_CATEGORY_LABEL } from '../../src/game/table.js';
-import { chooseBotAction } from '../../src/game/bot.js';
+import { chooseBotAction, chenScore, estimateEquity } from '../../src/game/bot.js';
 
 function threeHanded() {
   const table = new PokerTable({ hostName: '房主', roomCode: 'TEST01' });
@@ -240,6 +240,28 @@ test('机器人：单人房自动补位，机器人合法打完一手', () => {
   assert.ok(done.result);
   assert.equal(done.players.reduce((s, p) => s + p.chips, 0), 3000);
   assert.ok(done.result.awards.length >= 1);
+});
+
+test('机器人策略：Chen 翻前分数与蒙特卡洛胜率', () => {
+  assert.ok(chenScore(['ha', 'da']) > chenScore(['ha', 'hk']), 'AA 应强于 AKs');
+  assert.ok(chenScore(['ha', 'hk']) > chenScore(['h7', 'd2']), 'AKs 应强于 72o');
+
+  const state = {
+    you: { id: 1, cards: ['ha', 'da'] },
+    board: ['h7', 'd2', 'c9'],
+    players: [
+      { id: 1, seated: true, status: 'eligible' },
+      { id: 2, seated: true, status: 'eligible' },
+      { id: 3, seated: true, status: 'eligible' },
+    ],
+  };
+  let seed = 7;
+  const rng = () => {
+    seed = (seed * 48271) % 2147483647;
+    return seed / 2147483647;
+  };
+  const equity = estimateEquity(state, 60, rng);
+  assert.ok(equity > 0.45 && equity < 0.95, `AA 对两个随机对手胜率应合理，实际 ${equity}`);
 });
 
 test('机器人破产自动补码，下一手不会卡住', () => {
