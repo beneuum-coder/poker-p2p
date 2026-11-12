@@ -285,6 +285,24 @@ async function main() {
     return { code, playerRows: await host.locator('.player-row').allInnerTexts() };
   });
 
+  await scenario('机器人等级：低/中/高可选，标签与创建流程正确', async () => {
+    const { page: host } = await createRoom('等级测试');
+    const select = host.locator('select[data-input="bot-level"]');
+    assert.ok(await select.isVisible());
+    await select.selectOption('low');
+    await host.click('.side-panel [data-action="add-bot"]');
+    await host.waitForFunction(() => document.querySelectorAll('.tag.bot').length === 1);
+    assert.match(await host.locator('.tag.bot').first().innerText(), /低/);
+    await select.selectOption('high');
+    await host.click('.side-panel [data-action="add-bot"]');
+    await host.waitForFunction(() => document.querySelectorAll('.tag.bot').length === 2);
+    const tags = await host.locator('.tag.bot').allInnerTexts();
+    assert.ok(tags.some((t) => t.includes('低')) && tags.some((t) => t.includes('高')), tags.join(','));
+    assert.match(await host.locator('.room-meta').innerText(), /2 机器人/);
+    await host.screenshot({ path: path.join(artifacts, '04-bot-levels.png'), fullPage: true });
+    return { tags };
+  });
+
   assert.equal(allErrors.length, 0, `浏览器错误：\n${allErrors.join('\n')}`);
   report.finishedAt = new Date().toISOString();
   report.ok = true;

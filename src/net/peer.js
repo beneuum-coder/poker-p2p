@@ -309,16 +309,16 @@ export class HostSession {
     }, delay);
   }
 
-  addBot() {
-    const bot = this.table.addBot();
+  addBot(level = 'medium') {
+    const bot = this.table.addBot('', level);
     this.sync();
     return bot;
   }
 
-  fillBots(target = this.table.maxPlayers) {
+  fillBots(target = this.table.maxPlayers, level = 'medium') {
     let guard = 0;
     while (this.table.texas.room.getMemberCounts().total < target && guard < this.table.maxPlayers) {
-      this.table.addBot();
+      this.table.addBot('', level);
       guard += 1;
     }
     this.sync();
@@ -329,8 +329,8 @@ export class HostSession {
     this.sync();
   }
 
-  startHand() {
-    this.table.ensureBots(2);
+  startHand(level = 'medium') {
+    this.table.ensureBots(2, level);
     this.table.startHand();
     this.sync();
   }

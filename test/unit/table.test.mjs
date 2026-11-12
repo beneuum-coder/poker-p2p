@@ -264,6 +264,43 @@ test('机器人策略：Chen 翻前分数与蒙特卡洛胜率', () => {
   assert.ok(equity > 0.45 && equity < 0.95, `AA 对两个随机对手胜率应合理，实际 ${equity}`);
 });
 
+test('机器人等级：低等级更愿意跟注看翻牌，高等级更紧', () => {
+  const makeState = (level) => ({
+    stage: 'pre_flop',
+    bigBlind: 20,
+    pot: { total: 60 },
+    you: {
+      id: 2,
+      level,
+      role: 'bb',
+      chips: 1000,
+      cards: ['ha', 'd3'],
+      allowed: {
+        types: ['call', 'raise', 'allIn', 'fold'],
+        toCall: 40,
+        minTo: 60,
+        maxTo: 1000,
+        selfBet: 20,
+        maxOthers: 40,
+        canCall: true,
+        canCheck: false,
+        canFold: true,
+        canRaise: true,
+        canAllIn: true,
+        canBet: false,
+      },
+    },
+    players: [
+      { id: 1, seated: true, status: 'eligible' },
+      { id: 2, seated: true, status: 'eligible' },
+    ],
+  });
+  const low = chooseBotAction(makeState('low'), () => 0.3);
+  const high = chooseBotAction(makeState('high'), () => 0.3);
+  assert.equal(low.type, 'Call', '低等级应用较宽范围跟注看翻牌');
+  assert.equal(high.type, 'Fold', '高等级应更紧地弃掉边缘牌');
+});
+
 test('机器人破产自动补码，下一手不会卡住', () => {
   const table = new PokerTable({ hostName: '单机房主', roomCode: 'BOT002' });
   table.ensureBots(2);

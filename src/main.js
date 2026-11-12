@@ -28,11 +28,18 @@ const app = {
     code: '',
   },
   guestMeta: { code: '', token: '', playerId: null },
+  botLevel: 'medium',
   ui: { raiseTo: null },
   toastTimer: null,
 };
 
 const $ = (sel) => document.querySelector(sel);
+
+const BOT_LEVEL_LABEL = { low: '低', medium: '中', high: '高' };
+
+function botLevelLabel(level) {
+  return BOT_LEVEL_LABEL[level] || '中';
+}
 
 function esc(value) {
   return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
@@ -308,7 +315,7 @@ function tagsHTML(player, state, viewerId) {
   if (player.role === 'btn') tags.push('<span class="tag d">D</span>');
   if (player.role === 'sb') tags.push('<span class="tag sb">SB</span>');
   if (player.role === 'bb') tags.push('<span class="tag bb">BB</span>');
-  if (player.isBot) tags.push('<span class="tag bot">BOT</span>');
+  if (player.isBot) tags.push(`<span class="tag bot">BOT·${botLevelLabel(player.level)}</span>`);
   if (player.status === 'allIn') tags.push('<span class="tag allin">全下</span>');
   if (player.folded) tags.push('<span class="tag out">弃牌</span>');
   if (!player.seated) tags.push('<span class="tag out">等待</span>');
@@ -503,7 +510,7 @@ function playerListHTML(state, viewerId, isHost) {
     const tags = [];
     if (p.id === viewerId) tags.push('你');
     if (p.isHost) tags.push('房主');
-    if (p.isBot) tags.push('机器人');
+    if (p.isBot) tags.push(`机器人·${botLevelLabel(p.level)}`);
     if (!p.seated) tags.push('等待下一手');
     if (p.chips <= 0 && p.seated) tags.push('筹码为 0');
     return `
@@ -528,7 +535,12 @@ function hostControlsHTML(state, isHost) {
       ? `<button type="button" class="btn block" data-action="start" ${canStart ? '' : 'disabled'}>${state.status === 'lobby' ? '开始第 1 手' : '开始下一手'}</button>`
       : `<button type="button" class="btn block ghost" disabled>本手进行中</button>`;
   const botActions = state.status !== 'playing'
-    ? `<div class="action-buttons"><button type="button" class="btn small ghost" data-action="add-bot">添加机器人</button><button type="button" class="btn small ghost" data-action="fill-bots">补满 6 人</button></div>`
+    ? `<div class="bot-level-row"><span>机器人等级</span><select data-input="bot-level" aria-label="机器人等级">
+        <option value="low" ${app.botLevel === 'low' ? 'selected' : ''}>低 · 陪练</option>
+        <option value="medium" ${app.botLevel === 'medium' ? 'selected' : ''}>中 · 标准</option>
+        <option value="high" ${app.botLevel === 'high' ? 'selected' : ''}>高 · 职业</option>
+      </select></div>
+      <div class="action-buttons"><button type="button" class="btn small ghost" data-action="add-bot">添加机器人</button><button type="button" class="btn small ghost" data-action="fill-bots">补满 6 人</button></div>`
     : '';
   return `<div class="card-panel"><h4>房主控制</h4><div class="side-actions">${button}${botActions}<div class="tips">没人时可直接和机器人玩；房主负责行动合法性校验和牌局推进。</div></div></div>`;
 }
@@ -667,7 +679,7 @@ function sendAction(action) {
 function startHand() {
   if (app.role !== 'host' || !app.host) return;
   try {
-    app.host.startHand();
+    app.host.startHand(app.botLevel);
     app.ui.raiseTo = null;
   } catch (err) {
     try { app.host.sync(); } catch { /* ignore */ }
@@ -743,13 +755,19 @@ document.addEventListener('click', (event) => {
     }
   } else if (action === 'add-bot') {
     if (app.role === 'host' && app.host) {
-      try { app.host.addBot(); } catch (err) { toast(err?.message || '添加机器人失败', true); }
+      try { app.host.addBot(app.botLevel); } catch (err) { toast(err?.message || '添加机器人失败', true); }
     }
   } else if (action === 'fill-bots') {
     if (app.role === 'host' && app.host) {
-      try { app.host.fillBots(6); } catch (err) { toast(err?.message || '添加机器人失败', true); }
+      try { app.host.fillBots(6, app.botLevel); } catch (err) { toast(err?.message || '添加机器人失败', true); }
     }
   } else if (action === 'cancel') leaveRoom();
+});
+
+document.addEventListener('change', (event) => {
+  const input = event.target.closest('[data-input]');
+  if (!input) return;
+  if (input.dataset.input === 'bot-level') app.botLevel = input.value;
 });
 
 document.addEventListener('input', (event) => {

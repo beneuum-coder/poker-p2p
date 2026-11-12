@@ -175,6 +175,12 @@ function preflopDecision(state, rng) {
   const a = state.you.allowed;
   const cards = state.you.cards || [];
   const role = state.you.role || 'mp';
+  const level = ['low', 'medium', 'high'].includes(state.you.level) ? state.you.level : 'medium';
+  const levelAdj = {
+    low: { open: -2.4, call: -2.4, threeBet: 1.6, raiseChance: 0.32, threeBetChance: 0.14 },
+    medium: { open: 0, call: -2.5, threeBet: 0, raiseChance: 0.82, threeBetChance: 0.7 },
+    high: { open: 0.8, call: 0.5, threeBet: -0.3, raiseChance: 0.92, threeBetChance: 0.86 },
+  }[level];
   const activePlayers = (state.players || []).filter((p) => p.seated && p.status !== 'out' && p.status !== 'waiting').length;
   const bb = Number(state.bigBlind || 20);
   const info = preflopInfo(cards);
@@ -183,7 +189,7 @@ function preflopDecision(state, rng) {
   if (info.suited && info.gap <= 2) score += 0.6;
   if (info.high >= 11 && info.low >= 10 && info.suited) score += 0.4;
 
-  const openMin = openThreshold(role, activePlayers);
+  const openMin = openThreshold(role, activePlayers) + levelAdj.open;
   const facingRaise = Number(a.maxOthers || 0) > bb;
   const toCall = Number(a.toCall || 0);
   const stack = Number(state.you.chips || 0);
@@ -191,30 +197,40 @@ function preflopDecision(state, rng) {
 
   if (!facingRaise) {
     if (a.canCheck) {
-      if (score >= openMin + 1.0 && a.canRaise && rng() < 0.82) {
+      if (score >= openMin + 1.0 && a.canRaise && rng() < levelAdj.raiseChance) {
         return raiseSize(state, a, 2.6, 0.1);
       }
       return { type: 'Check' };
     }
-    if (a.canRaise && score >= openMin) return raiseSize(state, a, 2.6, 0.1);
+    if (a.canRaise && score >= openMin && rng() < levelAdj.raiseChance) {
+      return raiseSize(state, a, 2.6, 0.1);
+    }
     if (a.canCall && (toCall <= bb || score >= openMin - 1.2)) return { type: 'Call' };
     if (a.canFold) return { type: 'Fold' };
   }
 
   // 面对加注：强牌 3-bet，边缘牌按位置/价格跟注，否则弃牌。
-  const threeBetMin = threeBetThreshold(role, activePlayers);
-  if (a.canRaise && score >= threeBetMin && rng() < 0.7) {
+  const threeBetMin = threeBetThreshold(role, activePlayers) + levelAdj.threeBet;
+  if (a.canRaise && score >= threeBetMin && rng() < levelAdj.threeBetChance) {
     return raiseSize(state, a, 2.9, 0.1);
   }
   if (a.canAllIn && score >= 12 && stack <= (state.pot?.total || 0) * 0.8 && rng() < 0.55) {
     return { type: 'AllIn' };
   }
-  const callMin = continueThreshold(role, activePlayers);
+  const callMin = continueThreshold(role, activePlayers) + levelAdj.call;
   const priceRatio = toCall / Math.max(1, stack);
-  if (a.canCall && score >= callMin && !raisedPot && priceRatio < 0.22) {
+  if (a.canCall && score >= callMin && !raisedPot && priceRatio < (level === 'low' ? 0.38 : 0.22)) {
     return { type: 'Call' };
   }
-  if (a.canCall && info.pair && toCall <= bb * 4 && priceRatio < 0.2) {
+  if (a.canCall && info.pair && toCall <= bb * (level === 'low' ? 8 : 4) && priceRatio < 0.28) {
+    return { type: 'Call' };
+  }
+  const speculative = info.suited && info.gap <= 2;
+  const broadway = info.high >= 12 || (info.high >= 10 && info.low >= 9);
+  if (a.canCall && level !== 'high' && (speculative || broadway) && priceRatio < 0.22) {
+    return { type: 'Call' };
+  }
+  if (a.canCall && level === 'low' && toCall <= bb * 4 && priceRatio < 0.3) {
     return { type: 'Call' };
   }
   if (a.canCall && score >= callMin + 2 && priceRatio < 0.32) {
@@ -228,6 +244,12 @@ function preflopDecision(state, rng) {
 
 function postflopDecision(state, rng) {
   const a = state.you.allowed;
+  const level = ['low', 'medium', 'high'].includes(state.you.level) ? state.you.level : 'medium';
+  const cfg = {
+    low: { callAdj: -0.06, value: 0.82, valueFreq: 0.55, bluff: 0.08, raise: 0.88, size: 0.5 },
+    medium: { callAdj: 0.025, value: 0.62, valueFreq: 0.62, bluff: 0.2, raise: 0.78, size: 0.6 },
+    high: { callAdj: 0.05, value: 0.68, valueFreq: 0.82, bluff: 0.12, raise: 0.72, size: 0.7 },
+  }[level];
   const opponents = (state.players || []).filter((p) => (
     p.id !== state.you.id && p.seated && p.status !== 'out' && p.status !== 'waiting'
   )).length;
@@ -237,28 +259,26 @@ function postflopDecision(state, rng) {
   const toCall = Number(a.toCall || 0);
   const stack = Number(state.you.chips || 0);
   const potOdds = toCall > 0 ? toCall / Math.max(1, pot + toCall) : 0;
-  const stage = state.stage;
-  const river = stage === 'river';
+  const river = state.stage === 'river';
   const roll = rng();
 
   if (a.canCheck) {
-    if (a.canBet && equity > 0.78 && roll < 0.85) return betSize(state, a, 0.72);
-    if (a.canBet && equity > 0.62 && roll < 0.62) return betSize(state, a, 0.55);
-    if (a.canBet && equity < 0.34 && !river && roll < 0.2) return betSize(state, a, 0.45);
+    if (a.canBet && equity > cfg.value && roll < cfg.valueFreq) return betSize(state, a, cfg.size);
+    if (a.canBet && equity < 0.34 && !river && roll < cfg.bluff) return betSize(state, a, 0.45);
     return { type: 'Check' };
   }
 
-  if (a.canRaise && equity > 0.78 && roll < 0.72) {
+  if (a.canRaise && equity > cfg.raise && roll < 0.72) {
     return raiseSize(state, a, 1.0, 0.7);
   }
   if (a.canAllIn && equity > 0.9 && toCall > 0 && stack <= pot * 0.9 && roll < 0.4) {
     return { type: 'AllIn' };
   }
   if (a.canCall) {
-    const required = potOdds + 0.025;
+    const required = potOdds + cfg.callAdj;
     if (equity >= required) return { type: 'Call' };
+    if (level === 'low' && toCall > 0 && toCall <= pot * 0.35 && equity > 0.22) return { type: 'Call' };
     if (toCall > 0 && toCall <= state.bigBlind && equity > 0.3) return { type: 'Call' };
-    if (stack <= 0) return { type: 'Call' };
   }
   if (a.canFold) return { type: 'Fold' };
   if (a.canCheck) return { type: 'Check' };

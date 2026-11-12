@@ -323,10 +323,11 @@ export class PokerTable {
     return Boolean(this.meta.get(Number(playerId))?.isBot);
   }
 
-  addBot(name = '') {
+  addBot(name = '', level = 'medium') {
     if (this.texas.room.getMemberCounts().total >= this.maxPlayers) {
       throw new Error('房间已满');
     }
+    const botLevel = ['low', 'medium', 'high'].includes(level) ? level : 'medium';
     let id = 0;
     for (let candidate = 2; candidate <= this.maxPlayers; candidate += 1) {
       if (!this.meta.has(candidate)) {
@@ -349,6 +350,7 @@ export class PokerTable {
       connected: true,
       isHost: false,
       isBot: true,
+      level: botLevel,
       pendingSeat: false,
       joinOrder: this.nextJoinOrder++,
     };
@@ -365,11 +367,11 @@ export class PokerTable {
       meta.pendingSeat = true;
     }
     this._appendLog(`${finalName} 加入了房间`);
-    return { playerId: id, name: meta.name, isBot: true };
+    return { playerId: id, name: meta.name, isBot: true, level: botLevel };
   }
 
   /** 单机模式兜底：人数不足时补机器人；机器人破产自动补码，避免单人局卡住。 */
-  ensureBots(minSeated = 2) {
+  ensureBots(minSeated = 2, level = 'medium') {
     for (const meta of this.meta.values()) {
       if (!meta.isBot) continue;
       const p = this.texas.room.getPlayerById(meta.id);
@@ -382,7 +384,7 @@ export class PokerTable {
     }
     let guard = 0;
     while (this.texas.room.getMemberCounts().total < minSeated && guard < this.maxPlayers) {
-      this.addBot();
+      this.addBot('', level);
       guard += 1;
     }
     return this.texas.room.getMemberCounts().total;
@@ -675,6 +677,7 @@ export class PokerTable {
         connected: meta ? meta.connected : false,
         isHost: id === this.hostId,
         isBot: Boolean(meta?.isBot),
+        level: meta?.level || null,
         bet: seated ? p.currentStageTotalAmount : 0,
         contributed: contribMap.get(id) || 0,
         status: seated ? p.getStatus() : 'waiting',
@@ -726,6 +729,7 @@ export class PokerTable {
         seated: Boolean(me?.seated),
         cards: viewedHole,
         role: me?.role || null,
+        level: me?.level || null,
         allowed,
         isTurn: Boolean(allowed),
         isHost: viewerId === this.hostId,
