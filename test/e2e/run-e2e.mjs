@@ -262,6 +262,29 @@ async function main() {
     return { code, awardTexts, chips };
   });
 
+  await scenario('单人模式：自动补机器人、机器人自动行动、下一手继续', async () => {
+    const { page: host, code } = await createRoom('单机房主');
+    assert.ok(await host.locator('.table-overlay [data-action="start"]').isEnabled(), '单人房应能直接开始');
+    await host.click('.table-overlay [data-action="start"]');
+    await host.waitForFunction(() => document.querySelectorAll('.player-row').length === 2, null, { timeout: 15000 });
+    await host.waitForTimeout(900);
+    assert.match(await host.locator('.room-meta').innerText(), /1 机器人/);
+    assert.equal(await host.locator('.tag.bot').count(), 1);
+    assert.match(await host.locator('.stage-label').innerText(), /翻牌前/);
+
+    await finishHand(host, host);
+    assert.match(await host.locator('.room-meta').innerText(), /第 1 手结束/);
+    assert.ok(await host.locator('.action-bar [data-action="next"]').isVisible());
+    assert.ok((await host.locator('.action-bar .award').allTextContents()).length >= 1);
+
+    await host.click('.action-bar [data-action="next"]');
+    await host.waitForTimeout(900);
+    assert.match(await host.locator('.room-meta').innerText(), /第 2 手/);
+    assert.equal(await host.locator('.tag.bot').count(), 1);
+    await host.screenshot({ path: path.join(artifacts, '03-bot-host.png'), fullPage: true });
+    return { code, playerRows: await host.locator('.player-row').allInnerTexts() };
+  });
+
   assert.equal(allErrors.length, 0, `浏览器错误：\n${allErrors.join('\n')}`);
   report.finishedAt = new Date().toISOString();
   report.ok = true;

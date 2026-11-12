@@ -1,4 +1,5 @@
 import Peer from 'peerjs';
+import { chooseBotAction } from '../game/bot.js';
 
 const PEER_PREFIX = 'txp-poker-';
 
@@ -37,6 +38,7 @@ export class HostSession {
     this.connections = new Map(); // playerId -> conn
     this.pendingConns = new Set();
     this.retryTimer = null;
+    this.botTimer = null;
     this.retryDelay = 1000;
     this.destroyed = false;
     this.hasOpened = false;
@@ -188,8 +190,7 @@ export class HostSession {
     if (t === 'action') {
       try {
         this.table.act(conn.__playerId, msg.action || {});
-        this._broadcast();
-        this.onHostState(this.table.getState(1));
+        this.sync();
       } catch (err) {
         this._send(conn, { t: 'error', message: err?.message || '操作失败' });
       }
@@ -262,6 +263,65 @@ export class HostSession {
   sync() {
     this._broadcast();
     this.notifyHostState();
+    this.scheduleBot();
+  }
+
+  scheduleBot(delay = 780) {
+    if (this.botTimer) {
+      clearTimeout(this.botTimer);
+      this.botTimer = null;
+    }
+    if (this.destroyed || !this.table || this.table.controllerStatus !== 'in_hand') return;
+    const activeId = this.table.getActivePlayerId();
+    if (!activeId || !this.table.isBot(activeId)) return;
+
+    this.botTimer = setTimeout(() => {
+      this.botTimer = null;
+      if (this.destroyed || !this.table || this.table.controllerStatus !== 'in_hand') return;
+      if (this.table.getActivePlayerId() !== activeId) {
+        this.scheduleBot();
+        return;
+      }
+      let action = null;
+      try {
+        const state = this.table.getState(activeId);
+        action = chooseBotAction(state);
+        if (!action) throw new Error('没有可执行的合法行动');
+        this.table.act(activeId, action);
+      } catch (err) {
+        try {
+          const state = this.table.getState(activeId);
+          const types = state.you?.allowed?.types || [];
+          const fallback = types.includes('check')
+            ? { type: 'Check' }
+            : types.includes('call')
+              ? { type: 'Call' }
+              : types.includes('fold')
+                ? { type: 'Fold' }
+                : null;
+          if (!fallback) throw err;
+          this.table.act(activeId, fallback);
+        } catch (fallbackErr) {
+          this.onError(`机器人行动失败：${fallbackErr?.message || fallbackErr}`);
+        }
+      }
+      this.sync();
+    }, delay);
+  }
+
+  addBot() {
+    const bot = this.table.addBot();
+    this.sync();
+    return bot;
+  }
+
+  fillBots(target = this.table.maxPlayers) {
+    let guard = 0;
+    while (this.table.texas.room.getMemberCounts().total < target && guard < this.table.maxPlayers) {
+      this.table.addBot();
+      guard += 1;
+    }
+    this.sync();
   }
 
   actAsHost(action) {
@@ -270,19 +330,20 @@ export class HostSession {
   }
 
   startHand() {
+    this.table.ensureBots(2);
     this.table.startHand();
     this.sync();
   }
 
   rebuy(playerId) {
     this.table.rebuy(playerId);
-    this._broadcast();
-    this.onHostState(this.table.getState(1));
+    this.sync();
   }
 
   destroy() {
     this.destroyed = true;
     if (this.retryTimer) clearTimeout(this.retryTimer);
+    if (this.botTimer) clearTimeout(this.botTimer);
     for (const conn of this.connections.values()) {
       try { conn.close(); } catch { /* ignore */ }
     }

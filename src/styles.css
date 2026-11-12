@@ -302,6 +302,7 @@ a { color: var(--gold); }
 .tag.d { background: var(--gold); color: #1b2418; font-weight: 800; }
 .tag.sb { background: rgba(109, 168, 255, 0.2); color: #a9cbff; }
 .tag.bb { background: rgba(227, 107, 107, 0.2); color: #ffb4b4; }
+.tag.bot { background: rgba(109, 168, 255, 0.16); color: #b7d3ff; }
 .tag.allin { background: rgba(227, 107, 107, 0.16); color: #ffb4b4; }
 .tag.out { background: rgba(255, 255, 255, 0.06); color: var(--dim); }
 .tag.off { background: rgba(255, 255, 255, 0.06); color: #ffb4b4; }

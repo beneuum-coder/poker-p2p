@@ -246,6 +246,7 @@ function roomHTML() {
         <div class="room-meta">
           <span class="badge gold">盲注 ${chipsText(BIG_BLIND / 2)} / ${chipsText(BIG_BLIND)}</span>
           <span class="badge">${seated.length}/${state.maxPlayers} 人在座</span>
+          ${state.players.filter((p) => p.isBot).length ? `<span class="badge">${state.players.filter((p) => p.isBot).length} 机器人</span>` : ''}
           <span class="badge ${state.status === 'playing' ? 'green' : ''}">${statusText(state)}</span>
           <button type="button" class="btn small ghost" data-action="leave">${isHost ? '结束房间' : '离开'}</button>
         </div>
@@ -307,6 +308,7 @@ function tagsHTML(player, state, viewerId) {
   if (player.role === 'btn') tags.push('<span class="tag d">D</span>');
   if (player.role === 'sb') tags.push('<span class="tag sb">SB</span>');
   if (player.role === 'bb') tags.push('<span class="tag bb">BB</span>');
+  if (player.isBot) tags.push('<span class="tag bot">BOT</span>');
   if (player.status === 'allIn') tags.push('<span class="tag allin">全下</span>');
   if (player.folded) tags.push('<span class="tag out">弃牌</span>');
   if (!player.seated) tags.push('<span class="tag out">等待</span>');
@@ -383,17 +385,18 @@ function layoutSeats(seated, viewerId) {
 function lobbyOverlayHTML(state, isHost) {
   if (state.status !== 'lobby') return '';
   const seated = state.players.filter((p) => p.seated);
-  const canStart = isHost && seated.length >= 2;
+  const canStart = isHost && seated.length >= 1;
   return `
     <div class="table-overlay">
       <span class="badge gold">邀请朋友加入</span>
       <div class="invite-code">${esc(state.roomCode)}</div>
-      <p>把房间码或邀请链接发给朋友。${isHost ? '所有人在座后点击开始。' : `等待房主开始，你是 ${esc(state.you.name || '玩家')}。`}</p>
+      <p>把房间码发给朋友；没人时可以直接和机器人开局。${isHost ? '' : `等待房主开始，你是 ${esc(state.you.name || '玩家')}。`}</p>
       <div class="action-buttons" style="justify-content:center">
         <button type="button" class="btn small ghost" data-action="copy-link">复制邀请链接</button>
+        ${isHost ? `<button type="button" class="btn small ghost" data-action="add-bot">加机器人</button>` : ''}
         ${isHost ? `<button type="button" class="btn" data-action="start" ${canStart ? '' : 'disabled'}>开始第 1 手</button>` : ''}
       </div>
-      <p style="font-size:11px">${seated.length} 人在座${seated.length < 2 ? ' · 至少需要 2 人' : ''}</p>
+      <p style="font-size:11px">${seated.length} 人在座${seated.length < 2 ? ' · 开始时会自动补 1 个机器人' : ''}</p>
     </div>
   `;
 }
@@ -404,7 +407,7 @@ function waitingHTML(waiting, state) {
 
 function actionBarHTML(state, isHost) {
   if (state.status === 'lobby') {
-    return `<div class="action-bar"><div class="action-info"><span class="who">${isHost ? '你是房主' : '等待房主'}</span><span class="hint">${isHost ? '至少 2 名玩家在座即可开始' : '房主开始后自动发牌'}</span></div></div>`;
+    return `<div class="action-bar"><div class="action-info"><span class="who">${isHost ? '你是房主' : '等待房主'}</span><span class="hint">${isHost ? '没有其他玩家时会自动补机器人' : '房主开始后自动发牌'}</span></div></div>`;
   }
   if (state.status === 'hand_over') return resultBarHTML(state, isHost);
   if (state.status !== 'playing') {
@@ -500,6 +503,7 @@ function playerListHTML(state, viewerId, isHost) {
     const tags = [];
     if (p.id === viewerId) tags.push('你');
     if (p.isHost) tags.push('房主');
+    if (p.isBot) tags.push('机器人');
     if (!p.seated) tags.push('等待下一手');
     if (p.chips <= 0 && p.seated) tags.push('筹码为 0');
     return `
@@ -516,13 +520,17 @@ function playerListHTML(state, viewerId, isHost) {
 function hostControlsHTML(state, isHost) {
   if (!isHost) return '';
   const seatedWithChips = state.players.filter((p) => p.seated && p.chips > 0).length;
-  const canStart = state.status === 'lobby' || state.status === 'idle';
-  const button = canStart
-    ? `<button type="button" class="btn block" data-action="start" ${seatedWithChips >= 2 ? '' : 'disabled'}>${state.status === 'lobby' ? '开始第 1 手' : '开始下一手'}</button>`
-    : state.status === 'hand_over'
-      ? `<button type="button" class="btn block" data-action="next" ${seatedWithChips >= 2 ? '' : 'disabled'}>开始下一手</button>`
+  const canStart = (state.status === 'lobby' || state.status === 'idle' || state.status === 'hand_over')
+    && seatedWithChips >= 1;
+  const button = state.status === 'hand_over'
+    ? `<button type="button" class="btn block" data-action="next" ${canStart ? '' : 'disabled'}>开始下一手</button>`
+    : (state.status === 'lobby' || state.status === 'idle')
+      ? `<button type="button" class="btn block" data-action="start" ${canStart ? '' : 'disabled'}>${state.status === 'lobby' ? '开始第 1 手' : '开始下一手'}</button>`
       : `<button type="button" class="btn block ghost" disabled>本手进行中</button>`;
-  return `<div class="card-panel"><h4>房主控制</h4><div class="side-actions">${button}<div class="tips">房主负责行动合法性校验和牌局推进。</div></div></div>`;
+  const botActions = state.status !== 'playing'
+    ? `<div class="action-buttons"><button type="button" class="btn small ghost" data-action="add-bot">添加机器人</button><button type="button" class="btn small ghost" data-action="fill-bots">补满 6 人</button></div>`
+    : '';
+  return `<div class="card-panel"><h4>房主控制</h4><div class="side-actions">${button}${botActions}<div class="tips">没人时可直接和机器人玩；房主负责行动合法性校验和牌局推进。</div></div></div>`;
 }
 
 function logHTML(state) {
@@ -732,6 +740,14 @@ document.addEventListener('click', (event) => {
     const playerId = Number(btn.dataset.player);
     if (app.role === 'host' && app.host) {
       try { app.host.rebuy(playerId); } catch (err) { toast(err?.message || '补码失败', true); }
+    }
+  } else if (action === 'add-bot') {
+    if (app.role === 'host' && app.host) {
+      try { app.host.addBot(); } catch (err) { toast(err?.message || '添加机器人失败', true); }
+    }
+  } else if (action === 'fill-bots') {
+    if (app.role === 'host' && app.host) {
+      try { app.host.fillBots(6); } catch (err) { toast(err?.message || '添加机器人失败', true); }
     }
   } else if (action === 'cancel') leaveRoom();
 });

@@ -67,6 +67,8 @@ const RANK_TEXT = {
 
 const SUIT_TEXT = { h: '♥', s: '♠', d: '♦', c: '♣' };
 
+const BOT_NAMES = ['机器人·小安', '机器人·小北', '机器人·小西', '机器人·小南', '机器人·小乐', '机器人·小智'];
+
 export function cardText(card) {
   if (typeof card !== 'string' || card.length < 2) return { rank: '?', suit: '?', red: false };
   const suit = card[0];
@@ -281,6 +283,7 @@ export class PokerTable {
       token: token || randomToken(),
       connected: Boolean(connected),
       isHost: false,
+      isBot: false,
       pendingSeat: false,
       joinOrder: this.nextJoinOrder++,
     };
@@ -308,6 +311,71 @@ export class PokerTable {
 
   getPlayerIdByToken(token) {
     return [...this.meta.values()].find((m) => m.token === token)?.id || null;
+  }
+
+  getActivePlayerId() {
+    return this.texas.controller.status === 'in_hand'
+      ? this.texas.controller.activePlayer?.id ?? null
+      : null;
+  }
+
+  isBot(playerId) {
+    return Boolean(this.meta.get(Number(playerId))?.isBot);
+  }
+
+  addBot(name = '') {
+    if (this.texas.room.getMemberCounts().total >= this.maxPlayers) {
+      throw new Error('房间已满');
+    }
+    let id = 0;
+    for (let candidate = 2; candidate <= this.maxPlayers; candidate += 1) {
+      if (!this.meta.has(candidate)) {
+        id = candidate;
+        break;
+      }
+    }
+    if (!id) throw new Error('房间已满');
+
+    const usedNames = new Set([...this.meta.values()].map((m) => m.name));
+    const finalName = String(name || '').trim().slice(0, 16)
+      || BOT_NAMES.find((n) => !usedNames.has(n))
+      || `机器人${id}`;
+    const player = this.texas.createPlayer({ id, name: finalName });
+    this.texas.room.join(player);
+    const meta = {
+      id,
+      name: finalName,
+      token: `bot:${id}:${randomToken()}`,
+      connected: true,
+      isHost: false,
+      isBot: true,
+      pendingSeat: false,
+      joinOrder: this.nextJoinOrder++,
+    };
+    this.meta.set(id, meta);
+
+    if (this.roomStatus === 'seats_open') {
+      try {
+        this.texas.room.seatById(id);
+        this._safeReArrange();
+      } catch {
+        meta.pendingSeat = true;
+      }
+    } else {
+      meta.pendingSeat = true;
+    }
+    this._appendLog(`${finalName} 加入了房间`);
+    return { playerId: id, name: meta.name, isBot: true };
+  }
+
+  /** 单机模式兜底：人数不足时补机器人（不含已入座人数）。 */
+  ensureBots(minSeated = 2) {
+    let guard = 0;
+    while (this.texas.room.getMemberCounts().total < minSeated && guard < this.maxPlayers) {
+      this.addBot();
+      guard += 1;
+    }
+    return this.texas.room.getMemberCounts().total;
   }
 
   _prepareHand() {
@@ -596,6 +664,7 @@ export class PokerTable {
         seated,
         connected: meta ? meta.connected : false,
         isHost: id === this.hostId,
+        isBot: Boolean(meta?.isBot),
         bet: seated ? p.currentStageTotalAmount : 0,
         contributed: contribMap.get(id) || 0,
         status: seated ? p.getStatus() : 'waiting',

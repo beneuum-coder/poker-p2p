@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PokerTable, computeSidePots, cardText, formatCards, RANK_CATEGORY_LABEL } from '../../src/game/table.js';
+import { chooseBotAction } from '../../src/game/bot.js';
 
 function threeHanded() {
   const table = new PokerTable({ hostName: '房主', roomCode: 'TEST01' });
@@ -211,4 +212,32 @@ test('下一手：重置公共牌、移动庄家、保留筹码', () => {
     '新一手只扣除盲注，筹码总额不丢失',
   );
   assert.equal(next.pot.total, 30);
+});
+
+test('机器人：单人房自动补位，机器人合法打完一手', () => {
+  const table = new PokerTable({ hostName: '单机房主', roomCode: 'BOT001' });
+  assert.equal(table.getState(1).players.length, 1);
+  table.ensureBots(3);
+  const lobby = table.getState(1);
+  assert.equal(lobby.players.length, 3);
+  assert.equal(lobby.players.filter((p) => p.isBot).length, 2);
+  assert.ok(lobby.players.filter((p) => p.isBot).every((p) => p.connected && p.seated));
+
+  table.startHand();
+  assert.equal(table.getState(1).players.filter((p) => p.isBot && p.cardCount === 2).length, 2);
+  let guard = 0;
+  while (table.controllerStatus === 'in_hand' && guard < 200) {
+    const activeId = table.getActivePlayerId();
+    assert.ok(activeId, '进行中应有行动玩家');
+    const state = table.getState(activeId);
+    const action = chooseBotAction(state, () => 0.3);
+    assert.ok(action, '机器人应给出合法行动');
+    assert.doesNotThrow(() => table.act(activeId, action), `机器人动作应合法：${JSON.stringify(action)}`);
+    guard += 1;
+  }
+  assert.equal(table.controllerStatus, 'between_hands');
+  const done = table.getState(1);
+  assert.ok(done.result);
+  assert.equal(done.players.reduce((s, p) => s + p.chips, 0), 3000);
+  assert.ok(done.result.awards.length >= 1);
 });
