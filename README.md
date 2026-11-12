@@ -2,6 +2,9 @@
 
 > GitHub Pages 上的轻量联机德州扑克：纯静态站点、PeerJS 公共信令、房主权威、无需自建后端。
 
+**在线试玩：<https://beneuum-coder.github.io/poker-p2p/>**  
+**仓库：<https://github.com/beneuum-coder/poker-p2p>**
+
 ![牌桌截图](assets/screenshot.png)
 
 ---
