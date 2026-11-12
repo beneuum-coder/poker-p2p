@@ -1,0 +1,34 @@
+﻿{
+    "head":  "191095488f9b52779a079765d75f23fa16b88394",
+    "commitTime":  "2026-11-12 19:16:42 +0800",
+    "verifiedAt":  "2026-11-12T19:32:41.1009647+08:00",
+    "exactHeadCleanArchive":  {
+                                  "src/game/table.js":  "daf55d272b61cca47862aaa56c43f42c02643cae",
+                                  "src/game/bot.js":  "32cc2f76b4b8625e8199b97b7075249856e4324a",
+                                  "src/main.js":  "ca7121da0b65006be7c9023ee46618344534893b",
+                                  "src/net/peer.js":  "18396d592d6691093fcfd86b36e6a93ae0f7cc07",
+                                  "docs/app.js":  "aa098bbb0e9a57d4193648ebfcf5a3277478f46f"
+                              },
+    "currentWorkingTree":  {
+                               "src/game/table.js":  "af1d1c847a1ff2a55bac3db2cfc422c162c87083",
+                               "docs/app.js":  "39380880098cacd98465b5ca5900bd12e90a1b91",
+                               "status":  [
+                                              " M docs/app.js",
+                                              " M src/game/table.js",
+                                              " M verification/verifier-report.md",
+                                              "?? verification/artifacts/bots-01-solo-preflop.png",
+                                              "?? verification/artifacts/bots-02-solo-hand2.png",
+                                              "?? verification/artifacts/bots-03-six-players.png",
+                                              "?? verification/artifacts/e2e-current-tree-bot.png",
+                                              "?? verification/artifacts/e2e-current-tree-with-delta.json",
+                                              "?? verification/artifacts/e2e-head-1910954-bot.png",
+                                              "?? verification/artifacts/e2e-head-1910954.json",
+                                              "?? verification/artifacts/head-1910954-hashes.json",
+                                              "?? verification/artifacts/recheck-bots-browser.json",
+                                              "?? verification/artifacts/recheck-bots-node-current-tree.json",
+                                              "?? verification/artifacts/recheck-bots-node-head-1910954.json",
+                                              "?? verification/recheck-bots-browser.mjs",
+                                              "?? verification/recheck-bots-node.mjs"
+                                          ]
+                           }
+}

@@ -1,0 +1,308 @@
+{
+  "generatedAt": "2026-11-12T11:32:22.638Z",
+  "root": "D:\\文档\\deepseek-harness\\default-workspace\\poker-p2p",
+  "head": "1910954",
+  "checks": [
+    {
+      "name": "单人房 ensureBots(2) 自动补 1 个机器人并可直接开局",
+      "ok": true,
+      "detail": {
+        "players": [
+          [
+            1,
+            "单人房主",
+            false
+          ],
+          [
+            2,
+            "机器人·小安",
+            true
+          ]
+        ],
+        "pot": 30
+      }
+    },
+    {
+      "name": "addBot/fill 到 6 人（房主 + 5 机器人），第 7 个机器人与第 7 个真人被拒",
+      "ok": true,
+      "detail": {
+        "players": [
+          [
+            1,
+            "补位房主",
+            false
+          ],
+          [
+            2,
+            "机器人·小安",
+            true
+          ],
+          [
+            3,
+            "机器人·小北",
+            true
+          ],
+          [
+            4,
+            "机器人·小西",
+            true
+          ],
+          [
+            5,
+            "机器人·小南",
+            true
+          ],
+          [
+            6,
+            "机器人·小乐",
+            true
+          ]
+        ],
+        "names": [
+          "补位房主",
+          "机器人·小安",
+          "机器人·小北",
+          "机器人·小西",
+          "机器人·小南",
+          "机器人·小乐"
+        ]
+      }
+    },
+    {
+      "name": "2/3/4/6 人 × 5 个随机种子：机器人行动全部合法、有限步内结束、筹码守恒",
+      "ok": true,
+      "detail": {
+        "2": [
+          {
+            "seed": 1,
+            "actions": 8,
+            "chips": 2000,
+            "awards": 1,
+            "pot": 40
+          },
+          {
+            "seed": 2,
+            "actions": 8,
+            "chips": 2000,
+            "awards": 1,
+            "pot": 40
+          },
+          {
+            "seed": 3,
+            "actions": 8,
+            "chips": 2000,
+            "awards": 1,
+            "pot": 40
+          },
+          {
+            "seed": 4,
+            "actions": 8,
+            "chips": 2000,
+            "awards": 1,
+            "pot": 40
+          },
+          {
+            "seed": 5,
+            "actions": 8,
+            "chips": 2000,
+            "awards": 1,
+            "pot": 120
+          }
+        ],
+        "3": [
+          {
+            "seed": 1,
+            "actions": 12,
+            "chips": 3000,
+            "awards": 1,
+            "pot": 60
+          },
+          {
+            "seed": 2,
+            "actions": 14,
+            "chips": 3000,
+            "awards": 1,
+            "pot": 120
+          },
+          {
+            "seed": 3,
+            "actions": 12,
+            "chips": 3000,
+            "awards": 1,
+            "pot": 60
+          },
+          {
+            "seed": 4,
+            "actions": 12,
+            "chips": 3000,
+            "awards": 1,
+            "pot": 60
+          },
+          {
+            "seed": 5,
+            "actions": 12,
+            "chips": 3000,
+            "awards": 1,
+            "pot": 60
+          }
+        ],
+        "4": [
+          {
+            "seed": 1,
+            "actions": 16,
+            "chips": 4000,
+            "awards": 1,
+            "pot": 80
+          },
+          {
+            "seed": 2,
+            "actions": 16,
+            "chips": 4000,
+            "awards": 1,
+            "pot": 80
+          },
+          {
+            "seed": 3,
+            "actions": 16,
+            "chips": 4000,
+            "awards": 1,
+            "pot": 160
+          },
+          {
+            "seed": 4,
+            "actions": 16,
+            "chips": 4000,
+            "awards": 1,
+            "pot": 80
+          },
+          {
+            "seed": 5,
+            "actions": 16,
+            "chips": 4000,
+            "awards": 1,
+            "pot": 80
+          }
+        ],
+        "6": [
+          {
+            "seed": 1,
+            "actions": 70,
+            "chips": 6000,
+            "awards": 1,
+            "pot": 4010
+          },
+          {
+            "seed": 2,
+            "actions": 24,
+            "chips": 6000,
+            "awards": 1,
+            "pot": 120
+          },
+          {
+            "seed": 3,
+            "actions": 25,
+            "chips": 6000,
+            "awards": 1,
+            "pot": 240
+          },
+          {
+            "seed": 4,
+            "actions": 24,
+            "chips": 6000,
+            "awards": 1,
+            "pot": 240
+          },
+          {
+            "seed": 5,
+            "actions": 24,
+            "chips": 6000,
+            "awards": 1,
+            "pot": 120
+          }
+        ]
+      }
+    },
+    {
+      "name": "越权反证：非 active 玩家（含机器人）调用 act 会被拒绝",
+      "ok": true,
+      "detail": {
+        "active": 1,
+        "other": 2
+      }
+    },
+    {
+      "name": "隐私：摊牌前真人 state 不含机器人底牌；摊牌后按规则公开",
+      "ok": true,
+      "detail": {
+        "botId": 2,
+        "botHoles": [
+          "d5",
+          "cq"
+        ],
+        "revealed": [
+          1,
+          2
+        ],
+        "botEndCards": [
+          "d5",
+          "cq"
+        ]
+      }
+    },
+    {
+      "name": "边界：机器人筹码耗尽后，下一手是否可自动继续（HEAD 行为探测）",
+      "ok": true,
+      "detail": {
+        "botId": 2,
+        "error": null,
+        "handStatus": "playing",
+        "bots": [
+          [
+            2,
+            990,
+            true
+          ]
+        ],
+        "hostSeated": true
+      }
+    },
+    {
+      "name": "策略统计：随机种子下机器人行动类型分布与牌力样例",
+      "ok": true,
+      "detail": {
+        "hands": 21,
+        "botActions": 263,
+        "actionTypes": {
+          "Check": 153,
+          "Call": 83,
+          "Bet": 4,
+          "Raise": 18,
+          "AllIn": 1,
+          "Fold": 4
+        },
+        "maxActionsPerHand": 70,
+        "preflopAA": 0.72,
+        "preflop72o": 0.22
+      }
+    }
+  ],
+  "stats": {
+    "hands": 21,
+    "botActions": 263,
+    "actionTypes": {
+      "Check": 153,
+      "Call": 83,
+      "Bet": 4,
+      "Raise": 18,
+      "AllIn": 1,
+      "Fold": 4
+    },
+    "maxActionsPerHand": 70,
+    "illegal": 0
+  },
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0
+  }
+}

@@ -407,3 +407,86 @@ node verification/join-latency.mjs
 - 唯一残余风险是硬关闭/网络黑洞下的检测延迟（约 45–60s，属于心跳阈值而非本次修复回归），建议后续缩短心跳或增加主机在线探测；
 - 未修改 `src/`、`docs/`、`README`；本轮仅新增 `verification/` 复核脚本与证据。
 
+---
+
+## 8. 复核补记（机器人补位，1910954）
+
+### 8.0 基线与工作区状态（重要）
+
+- **HEAD**：`191095488f9b52779a079765d75f23fa16b88394`（`feat: solo mode with auto-fill heuristic bots`，commit 时间 2026-11-12 19:16:42 +08:00）。
+- 复核开始时 `git status --porcelain` 为空。**第一轮套件运行期间，工作区 `src/game/table.js` 被外部改动**（mtime 19:17:49，新增 `ensureBots` 对筹码为 0 的机器人自动补码），HEAD 未变；随后 `npm run test:e2e` 按该工作区重建了 `docs/app.js`。该改动**不属于 HEAD 1910954**。
+- 为严格在 HEAD 上验证，使用 `git archive HEAD` 在 `verification/head-1910954-clean`（node_modules junction）建立临时干净副本运行套件；完成后已删除副本。哈希清单：[head-1910954-hashes.json](artifacts/head-1910954-hashes.json)。
+  - exact HEAD：`src/game/table.js daf55d27…`、`src/game/bot.js 32cc2f76…`、`src/main.js ca7121da…`、`src/net/peer.js 18396d59…`、`docs/app.js aa098bbb…`
+  - 当前工作区：`src/game/table.js af1d1c84…`、`docs/app.js 39380880…`（外部未提交 delta + E2E 重建）
+- 本轮验收方**没有手工修改 `src/`、`docs/`、`README`**，只写 `verification/`；但当前工作区仍存在上述外部未提交 delta，交付前需由 Lead 决定提交或回退并重建 `docs/`。
+- 线上首页 `https://beneuum-coder.github.io/poker-p2p/` 返回 HTTP 200（仅确认可访问；未对线上做完整交互回归，本轮功能验证基于 exact HEAD 本地构建）。
+
+### 8.1 必做命令（exact HEAD 1910954）
+
+| 命令 | 退出码 | 结果 |
+|---|---:|---|
+| `npm test`（clean HEAD archive） | 0 | 10/10 通过，0 failed（duration 484.07ms） |
+| `npm run test:e2e`（clean HEAD archive） | 0 | 3/3 场景通过；场景 1 `20464ms`、场景 2 `6385ms`、场景 3 单人机器人 `6879ms`；`acceptance-report.json ok: true` |
+| `npm run build`（E2E 内） | 0 | 干净副本 `docs/app.js` 重建后哈希仍为 `aa098bbb…`，与 HEAD 一致 |
+
+E2E 证据：[e2e-head-1910954.json](artifacts/e2e-head-1910954.json)、[e2e-head-1910954-bot.png](artifacts/e2e-head-1910954-bot.png)。
+
+当前工作区（含外部未提交 auto-rebuy delta）另跑：`npm test` 10/10、E2E 3/3（20535/6446/6080ms）；该结果**不作为 exact HEAD 结论**，证据 [e2e-current-tree-with-delta.json](artifacts/e2e-current-tree-with-delta.json)。
+
+### 8.2 单人流程（独立验证）
+
+Node 反证：[recheck-bots-node.mjs](recheck-bots-node.mjs) → exact HEAD 证据 [recheck-bots-node-head-1910954.json](artifacts/recheck-bots-node-head-1910954.json)，**7/7 PASS**：
+
+- 单人房 `ensureBots(2)` 自动补 1 个 BOT（`机器人·小安`），可直接开手，底池 30。
+- `addBot`/补到 6 人：房主 + 5 BOT；第 7 个 BOT 与第 7 个真人都被“房间已满”拒绝。
+- 2/3/4/6 人 × 5 个随机种子共 20 手：机器人行动全部合法、有限步结束（单手最多 48 次行动）、筹码守恒（2000/3000/4000/6000）、awards 总和等于底池。
+- 非 active 玩家（含 BOT）调用 `act` 被引擎拒绝（越权反证）。
+- 摊牌前真人 state 不含 BOT 底牌；摊牌后未弃牌 BOT 底牌按规则公开。
+
+真实浏览器反证：[recheck-bots-browser.mjs](recheck-bots-browser.mjs) → [recheck-bots-browser.json](artifacts/recheck-bots-browser.json)，**连续 2 次 8/8 PASS**：
+
+- 单人房“开始第 1 手”按钮可用；点击后 2/6 人、1 个 BOT、显示“1 机器人”和 BOT 标签。
+- 摊牌前：BOT 座位只有 2 张牌背，真人 state 中 BOT `cards` 为 `undefined`，整页 textContent 不含 BOT 底牌；主机自己底牌正常可见。
+- 第 1 手：机器人自动行动 4 次、总行动 8 次；真人回合等待 1.2s 期间机器人未行动（无越权）；筹码总和 2000，awards 总和 = 底池。
+- 第 2 手：点击“开始下一手”后机器人继续自动行动 4 次；**连续两手均正常结束，未卡住**；筹码总和仍 2000。
+- 调度：16 次总行动、18 次 `scheduleBot` 调用；没有同一手同一街同一玩家连续行动两次；机器人 action 时间戳唯一；stages 覆盖 pre_flop/flop/turn/river；行动次数远低于上限，无无限循环迹象。
+
+截图：[bots-01-solo-preflop.png](artifacts/bots-01-solo-preflop.png)、[bots-02-solo-hand2.png](artifacts/bots-02-solo-hand2.png)。
+
+### 8.3 “添加机器人”/“补满 6 人”/第 7 人
+
+真实浏览器验证通过：
+
+- 单人房点击“添加机器人” → 2 人（房主 + 1 BOT），房间状态显示“1 机器人”。
+- 点击“补满 6 人” → `6/6 人在座`、`5 机器人`、5 个 BOT 标签；6 家筹码总和 6000。
+- 第 7 个真人用房间码加入 → 提示“房间已满”，未进入房间；房主仍为 6 人。
+- 截图：[bots-03-six-players.png](artifacts/bots-03-six-players.png)。
+
+### 8.4 调度/越权/重复行动结论
+
+- `scheduleBot` 通过 `getActivePlayerId()` 判断，只有 active 是 BOT 才设置 780ms 定时器；定时器触发时再次核对 active 未变才行动（`src/net/peer.js:269-310`）。
+- 浏览器实测：所有 BOT action 记录均满足 `pid === active`、`status === in_hand`、`ok === true`；真人在 active 时等待 1.2s 无 BOT 行动，未发现越权。
+- 每次行动后 `sync()` 会清除上一定时器并重新调度；实测 2 手共 16 次 action、8 次 BOT action，无重复定时器导致的重复行动，无无限循环。
+- 理论风险（未观察到）：若某状态 `chooseBotAction` 与 fallback 都无法产生合法行动，`onError` 后 `sync()` 仍会再次调度，可能形成 780ms 间隔的错误循环；建议后续加连续失败上限/停止计时器。
+- 复杂/异常状态（BOT 全下、河牌、跑马）由 E2E 单人场景与 Node 多手模拟覆盖，未发现卡死。
+
+### 8.5 机器人策略质量/风险
+
+- 策略是简单的牌力启发式（`src/game/bot.js`）：preflop 按大牌/对子/同花/连张给分；postflop 用牌型类别强度 + 少量随机；不做位置、范围、底池赔率、读牌。
+- exact HEAD Node 样本（21 手、265 次 BOT 行动）：`Check 144 / Call 91 / Raise 15 / Bet 10 / AllIn 1 / Fold 4`；preflop AA 强度约 0.72，72o 约 0.22。整体偏被动/跟注，符合“不是强 AI”的 README 声明。
+- 风险：BOT 由房主标签页的定时器驱动，后台标签节流或房主关页会延迟/终止；BOT 不做复杂范围与位置计算；这些 README 已声明，属于可接受的首版质量。
+- **P2 边界（HEAD 1910954）**：BOT 筹码为 0 时，`ensureBots(2)` 在同一 HEAD 上不会自动补码；下一手 `startHand` 会先离座 0 筹码 BOT，只剩 1 人，抛“至少需要 2 名已入座玩家”。最小复现：
+  1. 单人房自动补 1 个 BOT，打完一手；
+  2. 把 BOT 筹码设为 0（或 BOT 输光）；
+  3. 点“开始下一手” → 报“至少需要 2 名已入座玩家”，需要房主手动给 BOT 补码/加机器人才能继续。
+  - 当前工作区未提交的 `ensureBots` auto-rebuy delta 已修复此边界：同一场景下 `error: null`、下一手正常开始、BOT 筹码恢复 1000（exact HEAD 证据 [recheck-bots-node-head-1910954.json](artifacts/recheck-bots-node-head-1910954.json)，当前工作区证据 [recheck-bots-node-current-tree.json](artifacts/recheck-bots-node-current-tree.json)）。
+  - **该修复不在 HEAD 1910954，也未随线上 Pages 发布**（除非 Lead 后续提交并重建）；严格按 HEAD 验收时，这是单人模式连续开手的 P2 残余风险。
+
+### 8.6 最终结论（1910954 + 工作区 delta）
+
+- **机器人补位功能：PASS**。exact HEAD 上 `npm test` 10/10、`npm run test:e2e` 3/3；独立 Node 7/7、真实浏览器 8/8（连续两次）；单人自动补 BOT、连续 2 手、BOT 自动行动、底牌保密、添加/补满 6 人、第 7 人拒绝、调度不越权/不重复/不死循环均通过。
+- **残余 P2**：HEAD 1910954 的 BOT 破产场景（0 筹码）下一手不会自动补码，可能卡住单人模式；当前工作区未提交 delta 已修复，但 HEAD/线上尚未包含。若要求“BOT 输光后也能自动继续下一手”，HEAD 此项应记为 **FAIL/需修复**；若仅要求正常单人流程连续 2 手，则本轮 **PASS**。
+- 建议：把 `ensureBots` auto-rebuy 改动与重建后的 `docs/` 一并提交/推送，再重新跑一次线上 smoke；提交前不要丢弃当前工作区 delta。
+- 本轮未手工修改 `src/`、`docs/`、`README`；仅新增/修改 `verification/` 下的报告、脚本与证据。
+
+

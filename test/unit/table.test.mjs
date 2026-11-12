@@ -241,3 +241,23 @@ test('机器人：单人房自动补位，机器人合法打完一手', () => {
   assert.equal(done.players.reduce((s, p) => s + p.chips, 0), 3000);
   assert.ok(done.result.awards.length >= 1);
 });
+
+test('机器人破产自动补码，下一手不会卡住', () => {
+  const table = new PokerTable({ hostName: '单机房主', roomCode: 'BOT002' });
+  table.ensureBots(2);
+  table.startHand();
+  let guard = 0;
+  while (table.controllerStatus === 'in_hand' && guard < 80) {
+    const activeId = table.getActivePlayerId();
+    const state = table.getState(activeId);
+    table.act(activeId, chooseBotAction(state, () => 0.4) || { type: 'Fold' });
+    guard += 1;
+  }
+  table.__setChips(2, 0);
+  table.ensureBots(2);
+  assert.equal(table.getState(1).players.find((p) => p.id === 2).chips, 1000);
+  table.startHand();
+  assert.equal(table.getState(1).status, 'playing');
+  const botAfter = table.getState(1).players.find((p) => p.id === 2);
+  assert.equal(botAfter.chips + botAfter.bet, 1000, '补码后只扣除盲注');
+});

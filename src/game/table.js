@@ -368,8 +368,18 @@ export class PokerTable {
     return { playerId: id, name: meta.name, isBot: true };
   }
 
-  /** 单机模式兜底：人数不足时补机器人（不含已入座人数）。 */
+  /** 单机模式兜底：人数不足时补机器人；机器人破产自动补码，避免单人局卡住。 */
   ensureBots(minSeated = 2) {
+    for (const meta of this.meta.values()) {
+      if (!meta.isBot) continue;
+      const p = this.texas.room.getPlayerById(meta.id);
+      if (!p) continue;
+      if (p.balance <= 0) {
+        p.balance = this.initialChips;
+        if (this.texas.room.getPlayerSeatStatus(p) === 'hang') meta.pendingSeat = true;
+        this._appendLog(`${meta.name} 补码 ${this.initialChips}`);
+      }
+    }
     let guard = 0;
     while (this.texas.room.getMemberCounts().total < minSeated && guard < this.maxPlayers) {
       this.addBot();

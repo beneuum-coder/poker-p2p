@@ -1,0 +1,176 @@
+{
+  "root": "D:\\文档\\deepseek-harness\\default-workspace\\poker-p2p\\verification\\head-1910954-clean",
+  "head": "1910954",
+  "startedAt": "2026-11-12T11:29:57.449Z",
+  "checks": [
+    {
+      "name": "单人房：开始按钮可用，点击后自动补 1 个 BOT",
+      "ok": true,
+      "detail": {
+        "bot": {
+          "id": 2,
+          "name": "机器人·小安",
+          "chips": 990,
+          "seated": true,
+          "connected": true,
+          "isHost": false,
+          "isBot": true,
+          "bet": 10,
+          "contributed": 10,
+          "status": "eligible",
+          "role": "btn",
+          "cardCount": 2,
+          "folded": false
+        },
+        "roomMeta": "盲注 10 / 20 | 2/6 人在座 | 1 机器人 | 第 1 手 · 翻牌前 | 结束房间"
+      }
+    },
+    {
+      "name": "隐私/UI：摊牌前 BOT 只有牌背，真人 state 不含 BOT 底牌",
+      "ok": true,
+      "detail": {
+        "botHoles": [
+          "s9",
+          "c7"
+        ],
+        "hostHoles": [
+          "d5",
+          "c4"
+        ],
+        "backs": 2
+      }
+    },
+    {
+      "name": "第 1 手：机器人自动行动，无越权，底池/筹码守恒",
+      "ok": true,
+      "detail": {
+        "handNo": 1,
+        "botActions": 4,
+        "totalActions": 8,
+        "awards": [
+          {
+            "userId": 2,
+            "amount": 40
+          }
+        ],
+        "potTotal": 40
+      }
+    },
+    {
+      "name": "第 2 手：机器人继续自动行动，连续两手不卡住，筹码守恒",
+      "ok": true,
+      "detail": {
+        "handNo": 2,
+        "botActionsHand2": 4,
+        "totalActions": 16,
+        "chips": [
+          [
+            1,
+            960
+          ],
+          [
+            2,
+            1040
+          ]
+        ],
+        "awards": [
+          {
+            "userId": 2,
+            "amount": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "调度/无重复：机器人行动次数有限、同一街同一玩家不会连续行动两次",
+      "ok": true,
+      "detail": {
+        "botActions": 8,
+        "totalActions": 16,
+        "schedCalls": 18,
+        "stages": [
+          "pre_flop",
+          "flop",
+          "turn",
+          "river"
+        ]
+      }
+    },
+    {
+      "name": "“添加机器人”按钮：房主单人房 → 2 人（1 BOT）",
+      "ok": true,
+      "detail": {
+        "players": [
+          [
+            1,
+            "补位复核房主",
+            false
+          ],
+          [
+            2,
+            "机器人·小安",
+            true
+          ]
+        ]
+      }
+    },
+    {
+      "name": "“补满 6 人”按钮：房主 + 5 BOT = 6/6",
+      "ok": true,
+      "detail": {
+        "meta": "盲注 10 / 20 | 6/6 人在座 | 5 机器人 | 等待开始 | 结束房间",
+        "bots": 5,
+        "players": [
+          [
+            1,
+            "补位复核房主",
+            false,
+            1000
+          ],
+          [
+            2,
+            "机器人·小安",
+            true,
+            1000
+          ],
+          [
+            3,
+            "机器人·小北",
+            true,
+            1000
+          ],
+          [
+            4,
+            "机器人·小西",
+            true,
+            1000
+          ],
+          [
+            5,
+            "机器人·小南",
+            true,
+            1000
+          ],
+          [
+            6,
+            "机器人·小乐",
+            true,
+            1000
+          ]
+        ]
+      }
+    },
+    {
+      "name": "第 7 个真人加入 6 人（含 5 BOT）房间：被拒“房间已满”",
+      "ok": true,
+      "detail": {
+        "errorText": "房间已满",
+        "hostRows": 6
+      }
+    }
+  ],
+  "finishedAt": "2026-11-12T11:30:21.458Z",
+  "ok": true,
+  "code": "HVNMZF",
+  "code2": "KNAYXU"
+}
