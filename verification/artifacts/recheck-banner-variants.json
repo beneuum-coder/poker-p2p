@@ -1,0 +1,353 @@
+{
+  "generatedAt": "2026-11-12T10:54:53.750Z",
+  "results": [
+    {
+      "label": "A:page.close",
+      "firstNotConnected": {
+        "elapsed": 58018,
+        "banner": true,
+        "pill": "连接中",
+        "hasRoom": true
+      },
+      "firstBanner": {
+        "elapsed": 58018,
+        "banner": true,
+        "pill": "连接中",
+        "hasRoom": true
+      },
+      "final": {
+        "banner": true,
+        "pill": "连接中",
+        "hasRoom": true
+      },
+      "samples": [
+        {
+          "elapsed": 15,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 518,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 1023,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 2550,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 5088,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 7624,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 10150,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 12686,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 15240,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 17783,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 20314,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 22856,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 25423,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 28002,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 30560,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 33087,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 35625,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 38166,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 40703,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 43241,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 45776,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 48316,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 50885,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 53422,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 55961,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 58521,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 61074,
+          "banner": true,
+          "pill": "连接中",
+          "hasRoom": true
+        }
+      ]
+    },
+    {
+      "label": "B:context.close",
+      "firstNotConnected": null,
+      "firstBanner": null,
+      "final": {
+        "banner": false,
+        "pill": "已连接",
+        "hasRoom": true
+      },
+      "samples": [
+        {
+          "elapsed": 17,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 527,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 1032,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 2575,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 5132,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 7675,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 10232,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 12765,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 15327,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 17867,
+          "banner": false,
+          "pill": "已连接",
+          "hasRoom": true
+        }
+      ]
+    },
+    {
+      "label": "C:__txpHost.destroy",
+      "firstNotConnected": {
+        "elapsed": 2,
+        "banner": true,
+        "pill": "重连中",
+        "hasRoom": true
+      },
+      "firstBanner": {
+        "elapsed": 2,
+        "banner": true,
+        "pill": "重连中",
+        "hasRoom": true
+      },
+      "final": {
+        "banner": true,
+        "pill": "连接中",
+        "hasRoom": true
+      },
+      "samples": [
+        {
+          "elapsed": 2,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 513,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 1027,
+          "banner": true,
+          "pill": "连接中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 2561,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        }
+      ]
+    },
+    {
+      "label": "D:page.reload",
+      "firstNotConnected": {
+        "elapsed": 4,
+        "banner": true,
+        "pill": "重连中",
+        "hasRoom": true
+      },
+      "firstBanner": {
+        "elapsed": 4,
+        "banner": true,
+        "pill": "重连中",
+        "hasRoom": true
+      },
+      "final": {
+        "banner": true,
+        "pill": "连接中",
+        "hasRoom": true
+      },
+      "samples": [
+        {
+          "elapsed": 4,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 521,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 1032,
+          "banner": true,
+          "pill": "连接中",
+          "hasRoom": true
+        },
+        {
+          "elapsed": 2573,
+          "banner": true,
+          "pill": "重连中",
+          "hasRoom": true
+        }
+      ]
+    }
+  ]
+}

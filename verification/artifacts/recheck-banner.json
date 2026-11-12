@@ -1,0 +1,1439 @@
+{
+  "head": "d6a4601",
+  "startedAt": "2026-11-12T10:55:26.081Z",
+  "steps": [
+    {
+      "step": "before-host-close",
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "step": "host-page-closed",
+      "at": 1794480932038
+    },
+    {
+      "step": "after-watch",
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    }
+  ],
+  "timeline": [
+    {
+      "ms": 19,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 533,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 1050,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 1559,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 2067,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 2583,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 3087,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 3593,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 4107,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 4624,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 5132,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 5650,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 6153,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 6660,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 7167,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 7671,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 8176,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 8681,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 9188,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 9692,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 10200,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 10730,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 11240,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 11746,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 12264,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 12768,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 13271,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 13788,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 14290,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 14795,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 15313,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 15832,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 16350,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 16867,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 17376,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 17884,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 18387,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 18892,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 19402,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 19905,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 20423,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 20941,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 21446,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 21965,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 22483,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 22986,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 23490,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 23995,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 24516,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 25032,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 25549,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 26066,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 26571,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 27086,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 27591,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 28097,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 28611,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 29127,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 29643,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 30148,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 30652,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 31156,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 31671,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 32185,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 32690,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 33197,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 33715,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 34220,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 34729,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 35233,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 35737,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 36255,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 36759,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 37265,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 37782,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 38285,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 38789,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 39305,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 39809,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 40315,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 40818,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 41336,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 41852,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 42355,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 42860,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 43365,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 43882,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 44400,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 44905,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 45413,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 45928,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 46434,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 46942,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 47449,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 47954,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 48472,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 48975,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 49481,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 49984,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 50502,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 51006,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 51512,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 52032,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 52537,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 53054,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 53561,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 54079,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 54597,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 55116,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 55631,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 56148,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 56666,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 57172,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 57681,
+      "bannerExists": false,
+      "bannerVisible": false,
+      "bannerText": "",
+      "pill": "已连接",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 58186,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+      "pill": "重连中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 58188,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+      "pill": "重连中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 58492,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+      "pill": "重连中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 58812,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+      "pill": "重连中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 59125,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+      "pill": "重连中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 59440,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+      "pill": "重连中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 59754,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 60069,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 60387,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 60701,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 61017,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 61331,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 61641,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 61955,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 62272,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 62588,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 62903,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 63220,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 63534,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 63850,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 64165,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 64478,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 64791,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 65106,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 65421,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 65735,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 66049,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 66366,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 66675,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 66993,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 67309,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 67623,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 67937,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 68251,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 68566,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 68882,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 69192,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 69508,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 69823,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    },
+    {
+      "ms": 70139,
+      "bannerExists": true,
+      "bannerVisible": true,
+      "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+      "pill": "连接中",
+      "hasRoom": true,
+      "stage": "翻牌前"
+    }
+  ],
+  "falseConnectedSamples": [],
+  "errors": [],
+  "preBannerConnectedSamples": 114,
+  "detectionLatencyMs": 58186,
+  "bannerSeenMs": 58186,
+  "bannerSnapshot": {
+    "bannerExists": true,
+    "bannerVisible": true,
+    "bannerText": "网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连",
+    "pill": "重连中",
+    "hasRoom": true,
+    "stage": "翻牌前"
+  },
+  "after": {
+    "bannerExists": true,
+    "bannerVisible": true,
+    "bannerText": "网络连接中断，正在自动重连… · 正在加入房间… 座位与筹码会保留 立即重连",
+    "pill": "连接中",
+    "hasRoom": true,
+    "stage": "翻牌前"
+  },
+  "ok": true,
+  "finishedAt": "2026-11-12T10:56:42.841Z"
+}

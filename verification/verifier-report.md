@@ -333,3 +333,77 @@ node verification/join-latency.mjs
 ```
 
 > `verification/` 下脚本只读 `src/`、`docs/`、`README.md` 等交付文件；唯一的写入是各自 `verification/artifacts/` 下的 JSON/截图。
+
+---
+
+## 7. 复核补记（d6a4601）
+
+- **复核时间**：2026-11-12 18:51–18:58（Asia/Shanghai）
+- **基线**：HEAD `d6a460153eca886b4293b3d2e7205818b475635d`（commit `test: independent acceptance report; fix reconnect banner and hand log`），复核开始时 `git status --porcelain` 为空。
+- **改动范围核对**：`src/game/table.js` 将 `this.log = []` 提前到 `_seatPending/_unseatBrokePlayers` 之前；`src/main.js` 的 `setNet()` 在 `room/connecting` 时无条件 `render()`；README 补充无踢人限制、修正多标签说明并移除 E2E 耗时快照；上一轮的 3 处调整已包含在 HEAD。
+
+### 7.1 必做命令（HEAD d6a4601）
+
+| 命令 | 退出码 | 结果 |
+|---|---:|---|
+| `npm test` | 0 | 9/9 通过，0 failed（duration 295.46ms） |
+| `npm run test:e2e` | 0 | 2/2 场景通过；场景 1 `18512ms`，场景 2 `6263ms`；`acceptance-report.json` `ok: true` |
+| `npm run build`（由 E2E 触发） | 0 | `docs/app.js` 8ad6acf6…、`docs/styles.css` cb1c4189…；构建前后哈希一致 |
+| `node verification/recheck-log.mjs` | 0 | 2/2 通过（日志修复确认） |
+| `node verification/recheck-banner.mjs` | 0 | 通过（banner 出现，横幅后无误报已连接） |
+
+`npm run test:e2e` 重建 `docs/` 前后哈希一致；复核后 `git status` 仅显示本轮新增/修改的 `verification/` 文件，无 `src/`、`docs/`、`README` 变更。原始 E2E 报告已更新为 [e2e-acceptance-report.json](artifacts/e2e-acceptance-report.json)。
+
+### 7.2 banner 复核（房主页面消失/关闭）
+
+测试脚本：[recheck-banner.mjs](recheck-banner.mjs)，证据：[recheck-banner.json](artifacts/recheck-banner.json)、截图 [recheck-banner-host-gone.png](artifacts/recheck-banner-host-gone.png)。
+
+- 正常连接时：`#conn-banner` 不存在，玩家 `#net-pill` 显示“已连接”。
+- 房主页 `host.close()`（硬关闭，模拟页面消失）后：
+  - `#conn-banner` 在 **58186ms** 出现；文案：
+    `网络连接中断，正在自动重连… · 找不到房间，正在重试…（房主可能暂时离线） 座位与筹码会保留 立即重连`
+  - 出现时 pill 为“重连中”；随后 12 秒持续观察，**没有**出现“已连接”误报；结束时 pill 为“连接中”，牌桌画面保留。
+- 对照（`probe-banner-variants.mjs` 诊断，证据 [recheck-banner-variants.json](artifacts/recheck-banner-variants.json)）：
+  - 房主页面 `reload()`：4ms 出现 banner；
+  - 房主端 `window.__txpHost.destroy()`（应用层优雅销毁）：2ms 出现 banner；
+  - 硬关闭（page.close）：58.2s 才出现，原因是 `GuestSession` 的心跳检测每 15s 一次、且 `lastMessageAt > 45s` 才主动重连（`src/net/peer.js:322,493-495`），不是本次 `setNet()` 修复失效。
+
+**结论**：`setNet()` 修复有效（`src/main.js:88-92`：`room/connecting` 时无条件 `render()`）——只要状态进入 `reconnecting/connecting`，`.conn-banner` 就会渲染；优雅关闭/房主刷新场景 2–4ms 出现。**残余风险**：硬关闭/进程消失/网络黑洞场景下，玩家在最长约 45–60 秒内仍显示“已连接”，之后才出现横幅；横幅出现后的重连阶段不再误报“已连接”。若产品要求“房主一消失就提示”，需缩短心跳阈值（如 10–15s）或增加主机在线探测；这不影响首版既有验收项。
+
+### 7.3 局间日志复核
+
+测试脚本：[recheck-log.mjs](recheck-log.mjs)，证据：[recheck-log.json](artifacts/recheck-log.json)。
+
+- **3 人局 + 本手加入的等待玩家**：下一手 `startHand()` 后 `getState(1).log` 完整保留：
+  ```text
+  迟到玩家 入座
+  玩家2 筹码耗尽，暂时离座
+  第 2 手开始
+  迟到玩家 小盲 10
+  房主 大盲 20
+  ```
+  同时确认 0 筹码玩家已离座、等待玩家已入座。
+- **2 人局**：把 2 号筹码置 0 后 `startHand()` 抛“至少需要 2 名已入座玩家”，但 `getState(1).log` 仍保留：
+  ```text
+  玩家2 筹码耗尽，暂时离座
+  ```
+- 结论：日志清空顺序修复有效，P3 已解决。
+
+### 7.4 README 更新核对
+
+- 已确认 `README.md` 第 95 行改为“两个独立浏览器 / 两个无痕窗口 / 两台设备”，并说明普通多标签共享 session token 可能顶号。
+- 已确认第 201 行新增“断线玩家会保留座位与筹码；首版没有移除/踢人入口，6 人满房时需结束房间重开”。
+- 已确认第 179 行改为“最近一次 E2E 结果（耗时随机器变化）”，不再写死 18287/6237ms。
+- 上述描述与第 4 节的风险观察一致，README 更新正确。
+
+### 7.5 复核结论
+
+**d6a4601 复核通过（PASS）**：
+
+- `npm test` 9/9、`npm run test:e2e` 2/2，`docs/` 重建后无差异；
+- banner 渲染修复确认：状态变化后 `.conn-banner` 正常出现，横幅出现后的重连阶段没有误报“已连接”；
+- 局间日志修复确认：2 人/3 人场景都保留“筹码耗尽”（以及“入座”）提示；
+- README 的 P2/P3 说明已同步；
+- 唯一残余风险是硬关闭/网络黑洞下的检测延迟（约 45–60s，属于心跳阈值而非本次修复回归），建议后续缩短心跳或增加主机在线探测；
+- 未修改 `src/`、`docs/`、`README`；本轮仅新增 `verification/` 复核脚本与证据。
+

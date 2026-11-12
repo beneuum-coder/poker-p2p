@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-11-12T10:52:04.245Z",
+  "head": "d6a4601",
+  "results": [
+    {
+      "scenario": "3-player+pending",
+      "ok": true,
+      "log": [
+        "迟到玩家 入座",
+        "玩家2 筹码耗尽，暂时离座",
+        "第 2 手开始",
+        "迟到玩家 小盲 10",
+        "房主 大盲 20"
+      ],
+      "seated": [
+        [
+          1,
+          true,
+          1020
+        ],
+        [
+          2,
+          false,
+          0
+        ],
+        [
+          3,
+          true,
+          980
+        ],
+        [
+          4,
+          true,
+          990
+        ]
+      ]
+    },
+    {
+      "scenario": "2-player-start-rejected",
+      "ok": true,
+      "error": "至少需要 2 名已入座玩家",
+      "log": [
+        "玩家2 筹码耗尽，暂时离座"
+      ]
+    }
+  ],
+  "ok": true
+}

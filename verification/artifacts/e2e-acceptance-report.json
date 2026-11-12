@@ -1,12 +1,12 @@
 {
-  "startedAt": "2026-11-12T10:37:27.138Z",
+  "startedAt": "2026-11-12T10:51:27.611Z",
   "scenarios": [
     {
       "name": "联机建立 + 完整一手牌 + 底牌保密 + 断线恢复 + 下一手",
       "ok": true,
-      "ms": 18441,
+      "ms": 18512,
       "details": {
-        "code": "HE6QN3",
+        "code": "423XB3",
         "privacy": {
           "guestOwnCards": 2,
           "guestVisibleOpponentBacks": 2
@@ -15,21 +15,21 @@
           "pot": "40",
           "chips": "980筹码",
           "hole": [
-            "9♠",
-            "K♣"
+            "8♣",
+            "9♣"
           ]
         },
         "totalChips": 2000,
-        "buttonBefore": "房主测试",
-        "buttonAfter": "小明"
+        "buttonBefore": "小明",
+        "buttonAfter": "房主测试"
       }
     },
     {
       "name": "边池：三人不等额全下，主池与边池分配正确",
       "ok": true,
-      "ms": 6196,
+      "ms": 6263,
       "details": {
-        "code": "B3LVQZ",
+        "code": "RQJ8SJ",
         "awardTexts": [
           "房主 +300",
           "小明 +400"
@@ -42,6 +42,6 @@
       }
     }
   ],
-  "finishedAt": "2026-11-12T10:37:52.072Z",
+  "finishedAt": "2026-11-12T10:51:52.674Z",
   "ok": true
 }
