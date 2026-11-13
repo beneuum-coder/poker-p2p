@@ -443,6 +443,12 @@ a { color: var(--gold); }
 .conn-steps .step { display: flex; align-items: center; gap: 8px; }
 .conn-steps .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
 .conn-steps .dot.on { background: var(--gold); box-shadow: 0 0 8px rgba(232, 200, 122, 0.4); }
+.conn-help {
+  max-width: 460px; font-size: 12px; line-height: 1.7; color: var(--gold);
+  background: rgba(232, 200, 122, 0.08); border: 1px solid rgba(232, 200, 122, 0.25);
+  border-radius: 10px; padding: 9px 12px;
+}
+.conn-help.bad { color: #ffb4b4; background: rgba(227, 107, 107, 0.08); border-color: rgba(227, 107, 107, 0.3); }
 
 /* toast */
 .toast {

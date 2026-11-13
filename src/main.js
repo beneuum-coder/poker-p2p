@@ -176,21 +176,23 @@ function landingHTML() {
 }
 
 function connectingHTML() {
+  const retrying = app.net.phase === 'reconnecting' || app.net.phase === 'error';
   return `
     <section class="center-screen">
       <div class="spinner"></div>
-      <h2>正在连接房间 <span class="room-code-inline">${esc(app.form.code)}</span></h2>
+      <h2>${retrying ? '连接遇到问题，正在重试' : '正在连接房间'} <span class="room-code-inline">${esc(app.form.code)}</span></h2>
       <p>${app.guestMeta.token ? '正在恢复你上一次的座位与筹码…' : '正在通过公共信令服务器找到房主…'}</p>
       <div class="conn-steps">
         <div class="step"><span class="dot on"></span>连接信令服务器</div>
-        <div class="step"><span class="dot ${app.net.phase === 'reconnecting' ? 'on' : ''}"></span>寻找房间并完成 P2P 握手</div>
+        <div class="step"><span class="dot ${retrying ? 'on' : ''}"></span>寻找房间并完成 P2P 握手</div>
         <div class="step"><span class="dot"></span>同步牌桌状态</div>
       </div>
+      ${app.net.detail ? `<div class="conn-help ${app.net.phase === 'error' ? 'bad' : ''}">${esc(app.net.detail)}</div>` : ''}
+      ${retrying ? '<p style="font-size:11px;color:var(--dim)">如果超过 15 秒仍未进入：确认房主页面没有关闭/刷新、房间码正确；也可以换 Wi-Fi / 手机热点再试。</p>' : ''}
       <div class="action-buttons" style="justify-content:center; margin-top:8px;">
         <button type="button" class="btn ghost" data-action="retry">立即重试</button>
         <button type="button" class="btn ghost" data-action="leave">取消并返回</button>
       </div>
-      ${app.net.detail ? `<p style="font-size:11px;color:var(--dim)">${esc(app.net.detail)}</p>` : ''}
     </section>
   `;
 }

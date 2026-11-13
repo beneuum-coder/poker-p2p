@@ -14,6 +14,22 @@ const PEER_CONFIG = {
       { urls: 'stun:stun.l.google.com:19302' },
       { urls: 'stun:stun1.l.google.com:19302' },
       { urls: 'stun:global.stun.twilio.com:3478' },
+      // 可选公共 TURN（免费、可能限流）：改善对称 NAT 下的直连失败。
+      {
+        urls: 'turn:openrelay.metered.ca:80',
+        username: 'openrelayproject',
+        credential: 'openrelayproject',
+      },
+      {
+        urls: 'turn:openrelay.metered.ca:443',
+        username: 'openrelayproject',
+        credential: 'openrelayproject',
+      },
+      {
+        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+        username: 'openrelayproject',
+        credential: 'openrelayproject',
+      },
     ],
   },
 };
@@ -39,6 +55,7 @@ export class HostSession {
     this.pendingConns = new Set();
     this.retryTimer = null;
     this.botTimer = null;
+    this.hostOpenTimer = null;
     this.retryDelay = 1000;
     this.destroyed = false;
     this.hasOpened = false;
@@ -63,8 +80,19 @@ export class HostSession {
     const peer = createPeer(peerIdForRoom(this.roomCode));
     this.peer = peer;
 
+    if (this.hostOpenTimer) clearTimeout(this.hostOpenTimer);
+    this.hostOpenTimer = setTimeout(() => {
+      this.hostOpenTimer = null;
+      if (this.destroyed || peer.open) return;
+      this._emitStatus('reconnecting', '连不上公共信令服务器（0.peerjs.com）——可能被网络/防火墙拦截，正在重试…');
+    }, 12000);
+
     peer.on('open', () => {
       if (this.destroyed) return;
+      if (this.hostOpenTimer) {
+        clearTimeout(this.hostOpenTimer);
+        this.hostOpenTimer = null;
+      }
       this.hasOpened = true;
       this.retryDelay = 1000;
       this._emitStatus('connected', '房间已上线，等待玩家加入');
@@ -349,6 +377,7 @@ export class HostSession {
     this.destroyed = true;
     if (this.retryTimer) clearTimeout(this.retryTimer);
     if (this.botTimer) clearTimeout(this.botTimer);
+    if (this.hostOpenTimer) clearTimeout(this.hostOpenTimer);
     for (const conn of this.connections.values()) {
       try { conn.close(); } catch { /* ignore */ }
     }
@@ -380,6 +409,9 @@ export class GuestSession {
     this.lastMessageAt = 0;
     this.heartbeatTimer = null;
     this._connectWatchTimer = null;
+    this._peerOpenTimer = null;
+    this._connectTimer = null;
+    this.connectAttempts = 0;
   }
 
   init() {
@@ -394,6 +426,8 @@ export class GuestSession {
 
   _createPeer() {
     if (this.destroyed) return;
+    if (this._peerOpenTimer) clearTimeout(this._peerOpenTimer);
+    this._cleanupConn();
     const old = this.peer;
     if (old) {
       try { old.destroy(); } catch { /* ignore */ }
@@ -401,8 +435,20 @@ export class GuestSession {
     const peer = createPeer();
     this.peer = peer;
 
+    this._peerOpenTimer = setTimeout(() => {
+      this._peerOpenTimer = null;
+      if (this.destroyed || peer.open) return;
+      this.connected = false;
+      this._emitStatus('reconnecting', '连不上公共信令服务器（0.peerjs.com）——可能被网络/防火墙拦截，正在重试…');
+      this._scheduleReconnect(true);
+    }, 12000);
+
     peer.on('open', () => {
       if (this.destroyed) return;
+      if (this._peerOpenTimer) {
+        clearTimeout(this._peerOpenTimer);
+        this._peerOpenTimer = null;
+      }
       this._connect();
     });
 
@@ -443,6 +489,7 @@ export class GuestSession {
   _connect() {
     if (this.destroyed || !this.peer?.open) return;
     this._cleanupConn();
+    this.connectAttempts += 1;
     this._emitStatus('connecting', '正在加入房间…');
     let conn;
     try {
@@ -453,8 +500,25 @@ export class GuestSession {
     }
     this.conn = conn;
 
+    // PeerJS 在部分网络下不会为不存在的房间触发 peer-unavailable；必须自己兜底。
+    this._connectTimer = setTimeout(() => {
+      this._connectTimer = null;
+      if (this.destroyed || this.conn !== conn || conn.open) return;
+      this.connected = false;
+      const detail = this.connectAttempts >= 3
+        ? '连不上房主：请确认房主页面仍打开、房间码正确；若房主在线，可能是网络/NAT 限制，换 Wi-Fi/热点再试'
+        : '暂时连不上房主，正在重试…';
+      this._emitStatus('reconnecting', detail);
+      this._cleanupConn();
+      this._scheduleReconnect();
+    }, 12000);
+
     conn.on('open', () => {
       if (this.destroyed || this.conn !== conn) return;
+      if (this._connectTimer) {
+        clearTimeout(this._connectTimer);
+        this._connectTimer = null;
+      }
       this.connected = true;
       this.retryDelay = 900;
       this._send({
@@ -464,7 +528,7 @@ export class GuestSession {
         token: this.token || undefined,
         roomCode: this.roomCode,
       });
-      this._emitStatus('connecting', '已连接，等待房主确认…');
+      this._emitStatus('connecting', '已连上房主，等待确认…');
       this._startConnectWatch();
     });
 
@@ -500,6 +564,7 @@ export class GuestSession {
     this._connectWatchTimer = setTimeout(() => {
       if (this.destroyed || !this.conn || !this.conn.open || this.playerId) return;
       // 连接已开但一直没收到 welcome，重试
+      this._emitStatus('reconnecting', '已连上房主但未收到确认，正在重试…');
       this._cleanupConn();
       this._scheduleReconnect();
     }, 8000);
@@ -510,6 +575,11 @@ export class GuestSession {
       this.playerId = msg.playerId;
       this.token = msg.token;
       this.connected = true;
+      this.connectAttempts = 0;
+      if (this._connectTimer) {
+        clearTimeout(this._connectTimer);
+        this._connectTimer = null;
+      }
       if (this._connectWatchTimer) clearTimeout(this._connectWatchTimer);
       this.onWelcome({ playerId: msg.playerId, token: msg.token, roomCode: msg.roomCode });
       if (msg.state) this.onState(msg.state);
@@ -570,6 +640,10 @@ export class GuestSession {
   _cleanupConn() {
     const conn = this.conn;
     this.conn = null;
+    if (this._connectTimer) {
+      clearTimeout(this._connectTimer);
+      this._connectTimer = null;
+    }
     if (this._connectWatchTimer) {
       clearTimeout(this._connectWatchTimer);
       this._connectWatchTimer = null;
@@ -612,6 +686,7 @@ export class GuestSession {
   destroy() {
     this.destroyed = true;
     if (this.retryTimer) clearTimeout(this.retryTimer);
+    if (this._peerOpenTimer) clearTimeout(this._peerOpenTimer);
     if (this.heartbeatTimer) clearInterval(this.heartbeatTimer);
     this._cleanupConn();
     try { this.peer?.destroy(); } catch { /* ignore */ }
