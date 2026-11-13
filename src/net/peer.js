@@ -324,6 +324,11 @@ export class HostSession {
     this.sync();
   }
 
+  removeBot(playerId) {
+    this.table.removeBot(playerId);
+    this.sync();
+  }
+
   actAsHost(action) {
     this.table.act(1, action);
     this.sync();

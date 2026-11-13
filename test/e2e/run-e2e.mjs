@@ -303,6 +303,24 @@ async function main() {
     return { tags };
   });
 
+  await scenario('满房真人优先：机器人补满后好友仍能加入', async () => {
+    const { page: host, code } = await createRoom('满房房主');
+    await host.click('.side-panel [data-action="fill-bots"]');
+    await host.waitForFunction(() => document.querySelectorAll('.player-row').length === 6, null, { timeout: 10000 });
+    assert.match(await host.locator('.room-meta').innerText(), /6\/6 人在座/);
+    assert.equal(await host.locator('.tag.bot').count(), 5);
+
+    const { page: guest } = await joinRoom(code, '好友', 'guest-full');
+    await guest.waitForSelector('.room-id .code', { timeout: 20000 });
+    await host.waitForFunction(() => document.querySelectorAll('.player-row').length === 6, null, { timeout: 10000 });
+    assert.match(await host.locator('.room-meta').innerText(), /6\/6 人在座/);
+    assert.match(await guest.locator('.room-meta').innerText(), /6\/6 人在座/);
+    assert.ok((await guest.locator('body').innerText()).includes('好友'));
+    assert.equal(await host.locator('.tag.bot').count(), 4, '应自动移除一个机器人给真人让位');
+    await host.screenshot({ path: path.join(artifacts, '05-full-room-human-priority.png'), fullPage: true });
+    return { code };
+  });
+
   assert.equal(allErrors.length, 0, `浏览器错误：\n${allErrors.join('\n')}`);
   report.finishedAt = new Date().toISOString();
   report.ok = true;

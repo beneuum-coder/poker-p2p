@@ -301,6 +301,29 @@ test('机器人等级：低等级更愿意跟注看翻牌，高等级更紧', ()
   assert.equal(high.type, 'Fold', '高等级应更紧地弃掉边缘牌');
 });
 
+test('满房时真人加入会自动移除一个机器人让位', () => {
+  const table = new PokerTable({ hostName: '房主' });
+  for (let i = 0; i < 5; i += 1) table.addBot('', i < 2 ? 'low' : 'high');
+  assert.equal(table.getState(1).players.length, 6);
+  assert.throws(() => table.addBot('', 'medium'), /房间已满/);
+
+  const friend = table.addPlayer({ name: '好友' });
+  const state = table.getState(friend.playerId);
+  assert.equal(state.players.length, 6);
+  assert.equal(state.players.filter((p) => p.isBot).length, 4);
+  assert.equal(state.players.find((p) => p.id === friend.playerId).seated, true);
+  assert.equal(state.players.find((p) => p.id === friend.playerId).name, '好友');
+});
+
+test('房主可以手动移除机器人', () => {
+  const table = new PokerTable({ hostName: '房主' });
+  table.addBot('', 'low');
+  assert.equal(table.getState(1).players.length, 2);
+  table.removeBot(2);
+  assert.equal(table.getState(1).players.length, 1);
+  assert.throws(() => table.removeBot(1), /只能移除机器人/);
+});
+
 test('机器人破产自动补码，下一手不会卡住', () => {
   const table = new PokerTable({ hostName: '单机房主', roomCode: 'BOT002' });
   table.ensureBots(2);

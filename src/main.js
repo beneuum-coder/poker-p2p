@@ -519,6 +519,7 @@ function playerListHTML(state, viewerId, isHost) {
         <span class="pn" title="${esc(p.name)}">${esc(p.name)}${tags.length ? `<span style="color:var(--dim);font-size:10px"> · ${tags.join(' / ')}</span>` : ''}</span>
         <span class="pc">${chipsText(p.chips)}</span>
         ${isHost && p.chips <= 0 && state.status !== 'playing' ? `<button type="button" class="btn small ghost" data-action="rebuy" data-player="${p.id}" title="补码 ${chipsText(state.initialChips)}">补码</button>` : ''}
+        ${isHost && p.isBot && state.status !== 'playing' ? `<button type="button" class="btn small ghost" data-action="remove-bot" data-player="${p.id}" title="移除机器人，给好友让位">移除</button>` : ''}
       </div>
     `;
   }).join('');
@@ -760,6 +761,11 @@ document.addEventListener('click', (event) => {
   } else if (action === 'fill-bots') {
     if (app.role === 'host' && app.host) {
       try { app.host.fillBots(6, app.botLevel); } catch (err) { toast(err?.message || '添加机器人失败', true); }
+    }
+  } else if (action === 'remove-bot') {
+    const playerId = Number(btn.dataset.player);
+    if (app.role === 'host' && app.host) {
+      try { app.host.removeBot(playerId); } catch (err) { toast(err?.message || '移除机器人失败', true); }
     }
   } else if (action === 'cancel') leaveRoom();
 });

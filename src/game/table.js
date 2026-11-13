@@ -263,7 +263,10 @@ export class PokerTable {
     }
 
     if (this.texas.room.getMemberCounts().total >= this.maxPlayers) {
-      throw new Error('房间已满');
+      // 真人优先：满房时若有机器人且不在手牌中，自动让出一个座位给好友。
+      if (!this.removeBotForHumanJoin()) {
+        throw new Error('房间已满（本手进行中，房主可等本手结束后移除机器人）');
+      }
     }
     let id = 0;
     for (let candidate = 2; candidate <= this.maxPlayers; candidate += 1) {
@@ -388,6 +391,48 @@ export class PokerTable {
       guard += 1;
     }
     return this.texas.room.getMemberCounts().total;
+  }
+
+  removeBot(playerId) {
+    const meta = this.meta.get(Number(playerId));
+    if (!meta?.isBot) throw new Error('只能移除机器人');
+    if (this.texas.controller.status === 'in_hand') {
+      throw new Error('本手进行中，暂时不能移除机器人');
+    }
+    let removed = false;
+    if (this.texas.room.status === 'seats_open') {
+      this.texas.room.removeById(meta.id);
+      removed = true;
+    } else if (this.texas.controller.status === 'between_hands') {
+      this.texas.removePlayerByIdAsSystem(meta.id);
+      removed = true;
+    }
+    if (!removed) throw new Error('机器人移除失败');
+    this.meta.delete(meta.id);
+    try { this._safeReArrange(); } catch { /* 剩余座位不足时由下一手重排 */ }
+    this._appendLog(`${meta.name} 已移除`);
+    return true;
+  }
+
+  /** 满房时优先移除等级最低/未入座的机器人，给真人让位。 */
+  removeBotForHumanJoin() {
+    if (this.texas.controller.status === 'in_hand') return false;
+    const rank = { low: 0, medium: 1, high: 2 };
+    const candidates = [...this.meta.values()]
+      .filter((m) => m.isBot)
+      .sort((a, b) => {
+        const seatRank = (m) => (this.texas.room.getPlayerSeatStatusById(m.id) === 'hang' ? -1 : 0);
+        return seatRank(a) - seatRank(b) || (rank[a.level] ?? 1) - (rank[b.level] ?? 1);
+      });
+    for (const bot of candidates) {
+      try {
+        this.removeBot(bot.id);
+        return true;
+      } catch {
+        /* 尝试下一个机器人 */
+      }
+    }
+    return false;
   }
 
   _prepareHand() {
